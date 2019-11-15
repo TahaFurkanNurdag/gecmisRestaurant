@@ -1,0 +1,104 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+	<title>Details</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/w3.css') }}">
+	<script type="text/javascript" src="{{ url_for('static', filename = 'js/toggleMenu.js') }}"></script>
+	<link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
+</head>
+
+<!-- Navbar -->
+<header style="font-family: 'Roboto', sans-serif;">
+	<div>
+		<div class="w3-bar w3-gym11 w3-card w3-left-align w3-large">
+			<a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-padding-large w3-hover-white w3-large w3-gym11"
+				href="javascript:void(0);" onclick="toggleMenu()" title="Toggle Navigation Menu">Menu</a>
+			<a href="/">
+				<img class="w3-bar-item w3-image w3-circle" style="height: 50px; width: auto"
+					src="{{ url_for('static', filename='images/sitelogo.png') }}" />
+			</a>
+			<a class="w3-bar-item w3-hide-small w3-padding-large w3-black"><b>
+					{% if adi %}
+					{{adi}}
+					{% else %}
+					!
+					{% endif %}
+				</b></a>
+			{% if not girildiMi %}
+			<a class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-gym11" href="/loginForm">Giriş
+				Yap</a>
+			{% else %}
+			<a href="/accountingMain"
+				class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Accounting</a>
+			<a href="/clientMain" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Client</a>
+			<a href="/addcategory" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Add
+				Packages</a>
+			<a href="/logout"
+				class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white w3-right">Logout</a>
+			{% endif %}
+		</div>
+
+		<!-- Navbar on small screens -->
+		<div id="navBar" class="w3-bar-block w3-white w3-hide w3-hide-large w3-hide-medium w3-large">
+			{% if not girildiMi %}
+			<a class="w3-bar-item w3-button w3-padding-large w3-hover-gym11" href="/loginForm">Giriş
+				Yap</a>
+			{% else %}
+			<a href="/account/profile" class="w3-bar-item w3-button w3-padding-large">Accounting</a>
+			<a href="/references" class="w3-bar-item w3-button w3-padding-large">Client</a>
+			<a href="/adminPage" class="w3-bar-item w3-button w3-padding-large">Add Packages</a>
+			<a href="/logout" class="w3-bar-item w3-button w3-padding-large">Logout</a>
+			{% endif %}
+		</div>
+	</div>
+	<br class="w3-margin-bottom">
+	<br class="w3-margin-bottom">
+</header>
+<!-- Navbar End -->
+
+<!-- Content -->
+
+<body
+	style="font-family: 'Roboto', sans-serif; background-image: url({{ url_for('static', filename='images/root_background.jpg') }}); background-position: center; background-repeat: no-repeat;background-size: cover;">
+		{% if sums == 0 %}
+		<div class="w3-margin w3-center w3-gray"><h1 class="">Your current state is {{sums}}₺</h1></div>
+		{% elif sums > 0 %}
+		<div class="w3-margin w3-center w3-green"><h1 class="">You are good! Your current state is +{{sums}}₺</h1></div>
+		{% else %}
+		<div class="w3-margin w3-center w3-gym11"><h1>There are problems! Your current state is {{sums}}₺</h1></div>
+		{% endif %}
+	
+	<div class="w3-margin w3-padding w3-center w3-white w3-card" style="overflow-x:auto;">
+		<br>
+		<table align="center">
+			<thead>
+				<tr>
+					<th>Id</th>
+					<th>Price</th>
+					<th>Month</th>
+					<th>Description</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for row in value %}
+				<tr></tr>
+				{% if row[1] > 0 %}
+				<td class="w3-green" style="width: 30%">{{row[1]}}</td>
+				{% elif row[1] < 0 %}
+				<td class="w3-gym11" style="width: 30%">{{row[1]}}</td>
+				{% else %}
+				<td class="w3-gray" style="width: 30%">{{row[1]}}</td>
+				{% endif %}
+				<td class="w3-gray" >{{row[0]}}</td>
+				<td class="w3-gray" style="width: 40%">{{row[2]}}</td>
+				<td class="w3-gray" style="width: 30%">{{row[3]}}</td>
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+</body>
+
+</html>

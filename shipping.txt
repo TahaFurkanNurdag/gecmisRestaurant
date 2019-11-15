@@ -1,0 +1,5 @@
+pip install pyinstaller - if you don't already have it installed.
+pyinstaller main.py - makes the build and dist folders.
+copy static, templates and database.db and place them under dist/main, where main.exe is.
+
+dist folder is ready to be shipped.
