@@ -17,7 +17,7 @@
 				href="javascript:void(0);" onclick="toggleMenu()" title="Toggle Navigation Menu">Menu</a>
 			<a href="/">
 				<img class="w3-bar-item w3-image w3-circle" style="height: 50px; width: auto"
-					src="{{ url_for('static', filename='images/sitelogo.png') }}" />
+					src="{{ url_for('static', filename='images/sitelogo.jpg') }}" />
 			</a>
 			<a class="w3-bar-item w3-hide-small w3-padding-large w3-black"><b>
 					{% if adi %}
@@ -30,14 +30,18 @@
 			<a class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-gym11" href="/loginForm">Giriş
 				Yap</a>
 			{% else %}
-			<a href="/accountingMain"
-				class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Accounting</a>
-			<a href="/clientMain" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Client</a>
-			<a href="/addcategory" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Add
-				Packages</a>
-			<a href="/copyingPage" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Backup!</a>
+			<a href="/tablesScreen"
+				class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Masalar</a>
+			<a href="/orderScreenAll"
+				class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Tüm sipariş detayları</a>
+			<a href="/stockTracker"
+				class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Stok takip</a>
+			<a href="/listOfPeople"
+				class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Personeller</a>
+			<a href="/listOfFoods"
+				class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Yemeklerin Listesi</a>
 			<a href="/logout"
-				class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white w3-right">Logout</a>
+				class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white w3-right">Çıkış</a>
 			{% endif %}
 		</div>
 
@@ -47,11 +51,16 @@
 			<a class="w3-bar-item w3-button w3-padding-large w3-hover-gym11" href="/loginForm">Giriş
 				Yap</a>
 			{% else %}
-			<a href="/accountingMain" class="w3-bar-item w3-button w3-padding-large">Accounting</a>
-			<a href="/clientMain" class="w3-bar-item w3-button w3-padding-large">Client</a>
-			<a href="/addcategory" class="w3-bar-item w3-button w3-padding-large">Add Packages</a>
-			<a href="/copyingPage" class="w3-bar-item w3-button w3-padding-large">Backup!</a>
-			<a href="/logout" class="w3-bar-item w3-button w3-padding-large">Logout</a>
+			<a href="/tablesScreen"
+			class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Masalar</a>
+		<a href="/orderScreenAll"
+			class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Tüm sipariş detayları</a>
+		<a href="/stockTracker"
+			class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Stok takip</a>
+		<a href="/listOfPeople"
+			class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Personeller</a>
+		<a href="/logout"
+			class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white w3-right">Çıkış</a>
 			{% endif %}
 		</div>
 	</div>
@@ -66,7 +75,7 @@
 	style="font-family: 'Roboto', sans-serif; background-image: url({{ url_for('static', filename='images/root_background.jpg') }}); background-position: center; background-repeat: no-repeat;background-size: cover;">
 	<div class="w3-display-container">
 		<div class="w3-content w3-center">
-			<img class="w3-bar-item w3-image w3-circle" src="{{ url_for('static', filename='images/sitelogo.png') }}" />
+			<img class="w3-bar-item w3-image w3-circle" src="{{ url_for('static', filename='images/sitelogo.jpg') }}" />
 		</div>
 	</div>
 </body>
