@@ -30,11 +30,16 @@
 			<a class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-gym11" href="/loginForm">Giriş
 				Yap</a>
 			{% else %}
-			<a href="/accountingMain"
-				class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Accounting</a>
-			<a href="/clientMain" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Client</a>
-			<a href="/addcategory" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Add
-				Packages</a>
+			<a href="/tablesScreen"
+				class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Masalar</a>
+			<a href="/orderScreenAll"
+				class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Tüm sipariş detayları</a>
+			<a href="/stockTracker"
+				class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Stok takip</a>
+			<a href="/listOfPeople"
+				class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Personeller</a>
+			<a href="/listOfFoods"
+				class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Yemeklerin Listesi</a>
 			<a href="/logout"
 				class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white w3-right">Logout</a>
 			{% endif %}
@@ -46,9 +51,16 @@
 			<a class="w3-bar-item w3-button w3-padding-large w3-hover-gym11" href="/loginForm">Giriş
 				Yap</a>
 			{% else %}
-			<a href="/account/profile" class="w3-bar-item w3-button w3-padding-large">Accounting</a>
-			<a href="/references" class="w3-bar-item w3-button w3-padding-large">Client</a>
-			<a href="/adminPage" class="w3-bar-item w3-button w3-padding-large">Add Packages</a>
+			<a href="/tablesScreen"
+				class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Masalar</a>
+			<a href="/orderScreenAll"
+				class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Tüm sipariş detayları</a>
+			<a href="/stockTracker"
+				class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Stok takip</a>
+			<a href="/listOfPeople"
+				class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Personeller</a>
+			<a href="/listOfFoods"
+				class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Yemeklerin Listesi</a>
 			<a href="/logout" class="w3-bar-item w3-button w3-padding-large">Logout</a>
 			{% endif %}
 		</div>
@@ -190,45 +202,32 @@
 	}
 </style>
 
-<body
-	style="font-family: 'Roboto', sans-serif; background-image: url({{ url_for('static', filename='images/root_background.jpg') }}); background-position: center; background-repeat: no-repeat;background-size: cover;">
-	<div class="w3-padding">
-		{% if msg %}
-		<p class="w3-gym11">{{msg}}</p>
-		{% endif %}
-			<form class="form-style-10" action="/addTeacherDetails" method="POST">
-				<div class="section"><span>1</span>Extra Details</div>
-				<div class="inner-wrap">
-					<p>Name of the Teacher</p>
-					<select class="w3-input" name="ogretmenAdi">
-							{% for row in ogretmenAdi %}
-							<option value="{{row[0]}}">{{row[0]}}</option>
-							{% endfor %}
-					</select>
-				<p>Client Name<input type="text" name="uyeadi"></p>
-				<p>Date<input type="date" name="date"></p>
-				<p>Type of package</p>
-					<select class="w3-input" name="pakettipi">
-							{% for row in pakettipleri %}
-							<option value="{{row[0]}}">{{row[0]}}</option>
-							{% endfor %}
-						</select>
-				</div>
-				<input type="submit" value="Add details">
-			</form>
-		</div>
-	</div>
-	<hr>
+<body style="font-family: 'Roboto', sans-serif; background-image: url({{ url_for('static', filename='images/root_background.jpg') }}); background-position: center; background-repeat: no-repeat;background-size: cover;">
+
+	
 	<div class="w3-margin w3-padding w3-center w3-white w3-card" style="overflow-x:auto;">
+		<div class="w3-container">
+			<div class="w3-padding w3-quarter">
+				<form class="form-style-10" action="/deletePersonal" method="POST">
+					<div class="section">Personel Sil</div>
+					<div class="inner-wrap">
+						<p>Personel Numarası<input type="text" name="id"></p>
+					</div>
+					<input type="submit" value="Personel sil">
+				</form>
+			</div>
 		<br>
 		<table style="width: 100%">
 			<thead>
 				<tr>
-					<th>Client No</th>
-					<th>Name of Teacher</th>
-					<th>Date</th>
-					<th>Package type</th>
-				
+					<th>Id</th>
+					<th>Adı</th>
+					<th>Soyadı</th>
+					<th>E-mail</th>	
+					<th>Kullanıcı adı</th>
+					<th>Adres</th>	
+					<th>Telefon</th>	
+					<th>Admin mi</th>						
 				</tr>
 			</thead>
 			<tbody>
@@ -238,6 +237,11 @@
 					<td class="w3-gray">{{row[1]}}</td>
 					<td class="w3-gray">{{row[2]}}</td>
 					<td class="w3-gray">{{row[3]}}</td>
+					<td class="w3-gray">{{row[4]}}</td>
+					<td class="w3-gray">{{row[6]}}</td>
+					<td class="w3-gray">{{row[7]}}</td>
+					<td class="w3-gray">{{row[8]}}</td>
+
 					 
 				</tr>
 				{% endfor %}

@@ -2,14 +2,75 @@
 <html>
 
 <head>
-	<title>Kayıt Sayfası </title>
-	<script type="text/javascript" src="{{ url_for('static', filename = 'js/validateForm.js') }}">
-	</script>
+	<title>Trainer Details</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="{{ url_for('static', filename='css/w3.css') }}">
 	<script type="text/javascript" src="{{ url_for('static', filename = 'js/toggleMenu.js') }}"></script>
 	<link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
 </head>
+
+<!-- Navbar -->
+<header style="font-family: 'Roboto', sans-serif;">
+	<div>
+		<div class="w3-bar w3-gym11 w3-card w3-left-align w3-large">
+			<a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-padding-large w3-hover-white w3-large w3-gym11"
+				href="javascript:void(0);" onclick="toggleMenu()" title="Toggle Navigation Menu">Menu</a>
+			<a href="/">
+				<img class="w3-bar-item w3-image w3-circle" style="height: 50px; width: auto"
+					src="{{ url_for('static', filename='images/sitelogo.png') }}" />
+			</a>
+			<a class="w3-bar-item w3-hide-small w3-padding-large w3-black"><b>
+					{% if adi %}
+					{{adi}}
+					{% else %}
+					!
+					{% endif %}
+				</b></a>
+			{% if not girildiMi %}
+			<a class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-gym11" href="/loginForm">Giriş
+				Yap</a>
+			{% else %}
+			<a href="/tablesScreen"
+				class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Masalar</a>
+			<a href="/orderScreenAll"
+				class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Tüm sipariş detayları</a>
+			<a href="/stockTracker"
+				class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Stok takip</a>
+			<a href="/listOfPeople"
+				class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Personeller</a>
+			<a href="/listOfFoods"
+				class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Yemeklerin Listesi</a>
+			<a href="/logout"
+				class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white w3-right">Logout</a>
+			{% endif %}
+		</div>
+
+		<!-- Navbar on small screens -->
+		<div id="navBar" class="w3-bar-block w3-white w3-hide w3-hide-large w3-hide-medium w3-large">
+			{% if not girildiMi %}
+			<a class="w3-bar-item w3-button w3-padding-large w3-hover-gym11" href="/loginForm">Giriş
+				Yap</a>
+			{% else %}
+			<a href="/tablesScreen"
+				class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Masalar</a>
+			<a href="/orderScreenAll"
+				class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Tüm sipariş detayları</a>
+			<a href="/stockTracker"
+				class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Stok takip</a>
+			<a href="/listOfPeople"
+				class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Personeller</a>
+			<a href="/listOfFoods"
+				class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Yemeklerin Listesi</a>
+			<a href="/logout" class="w3-bar-item w3-button w3-padding-large">Logout</a>
+			{% endif %}
+		</div>
+	</div>
+	<br class="w3-margin-bottom">
+	<br class="w3-margin-bottom">
+</header>
+<!-- Navbar End -->
+
+<!-- Content -->
 <style type="text/css">
 	.form-style-10 {
 		width: 450px;
@@ -141,74 +202,35 @@
 	}
 </style>
 
+<body style="font-family: 'Roboto', sans-serif; background-image: url({{ url_for('static', filename='images/root_background.jpg') }}); background-position: center; background-repeat: no-repeat;background-size: cover;">
 
-<!-- Navbar -->
-<header style="font-family: 'Roboto', sans-serif;">
-	<div>
-		<div class="w3-bar w3-gym11 w3-card w3-left-align w3-large">
-			<a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-padding-large w3-hover-white w3-large w3-gym11"
-				href="javascript:void(0);" onclick="toggleMenu()" title="Toggle Navigation Menu">Menu</a>
-			<a href="/">
-				<img class="w3-bar-item w3-image w3-circle" style="height: 50px; width: auto"
-					src="{{ url_for('static', filename='images/sitelogo.jpg') }}" />
-			</a>
-			<a class="w3-bar-item w3-hide-small w3-padding-large w3-black"><b>
-					{% if adi %}
-					{{adi}}
-					{% else %}
-					!
-					{% endif %}
-				</b></a>
-			{% if not girildiMi %}
-			<a class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-gym11" href="/loginForm">Giriş
-				Yap</a>
-			{% else %}
-			<a href="/logout"
-				class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white w3-right">Logout</a>
-			{% endif %}
-		</div>
+	<div class="w3-margin w3-padding w3-center w3-white w3-card" style="overflow-x:auto;">
+		<br>
+		<table style="width: 100%">
+			<thead>
+				<tr>
+					<th>Id</th>
+					<th>Ürün Adı</th>
+					<th>Ürün Adedi</th>
+					<th>Fiyat</th>	
+				</tr>
+			</thead>
+			<tbody>
+				{% for row in value %}
+				<tr>
+					<td class="w3-gray">{{row[0]}}</td>
+					<td class="w3-gray">{{row[1]}}</td>
+					<td class="w3-gray">{{row[2]}}</td>
+					<td class="w3-gray">{{row[3]}}</td>
 
-		<!-- Navbar on small screens -->
-		<div id="navBar" class="w3-bar-block w3-white w3-hide w3-hide-large w3-hide-medium w3-large">
-			{% if not girildiMi %}
-			<a class="w3-bar-item w3-button w3-padding-large w3-hover-gym11" href="/loginForm">Giriş
-				Yap</a>
-			{% else %}
-			<a href="/logout" class="w3-bar-item w3-button w3-padding-large">Logout</a>
-			{% endif %}
-		</div>
+					 
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+		<br>
 	</div>
-	<br class="w3-margin-bottom">
-	<br class="w3-margin-bottom">
-</header>
-<!-- Navbar End -->
 
-<!-- Content -->
-
-<body
-	style="font-family: 'Roboto', sans-serif; background-image: url({{ url_for('static', filename='images/root_background.jpg') }}); background-position: center; background-repeat: no-repeat;background-size: cover;">
-	
-	<div class="form-style-10">
-		<form action="/register" method="POST" onsubmit="return validate()">
-
-			<h1>Kayıt!<span>Yeni çalışan ekle</span></h1>
-			<div class="section"><span>1</span>Kişisel bilgiler</div>
-			<div class="inner-wrap">
-				<p>İsim:<input type="text" name="adi"></p>
-				<p>Soyisim: <input type="text" name="soyadi"></p>
-				<p>Telefon: <input type="text" name="tel"></p>
-				<p>E-mail:<input type="email" name="email"></p>
-				<p>Kullanıcı Adı:<input type="email" name="kullaniciadi"></p>
-				<p>1. Adress: <input type="text" name="adres"></p>
-			</div>
-			<div class="section"><span>2</span>Şifre</div>
-			<div class="inner-wrap">
-				<p>Şifre: <input type="password" name="parola" id="parola" required></p>
-				<p>Şifre(Tekrar):<input type="password" name="cpassword" id="cpassword"></p>
-			</div>
-			<input type="submit" value="Kaydet">
-		</form>
-	</div>
-	</body>
+</body>
 
 </html>

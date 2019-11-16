@@ -6,67 +6,66 @@ conn = sqlite3.connect('database.db')
 #Tablolari olusturma
 conn.execute('''CREATE TABLE `kullanicilar` (
 	`userId`	INTEGER,
-	`parola`	TEXT,
-	`email`	TEXT,
 	`adi`	TEXT,
 	`soyadi`	TEXT,
-	`adres1`	TEXT,
-	`adres2`	TEXT,
-	`il`	TEXT,
-	`ilce`	TEXT,
-	`ulke`	TEXT,
+	`email`	TEXT,
+	`kullaniciAdi` TEXT,
+	`parola`	TEXT,
+	`adres`	TEXT,
 	`tel`	TEXT,
-	`boy`   INTEGER,
-	`kilo`  INTEGER,
-	`kayitgunu` DATE,
-	`pakettipi` TEXT,
-	`ekstrapaketler` TEXT,
-	`paketkalangunsayisi` INTEGER,
-	`aktifmi`   INTEGER,
-	`katilim`   INTEGER,
-	`arkadassayisi` INTEGER,
-	`odeme`    INTEGER,
-	`ogretmenMi`	INTEGER,
 	`adminMi`	INTEGER,
 	PRIMARY KEY(`userId`)
 		)''')
 
-conn.execute('''CREATE TABLE `muhasebe` (
-	`id`	INTEGER,
-	`price` INTEGER,
-	`date`  DATE,
-	`explanation` TEXT,
+conn.execute('''CREATE TABLE `anliksiparis` (
+	`masaId` INTEGER,
+	`yemekAdi`	TEXT,
+	`yemekAdedi`	INTEGER,
+	`icecekAdi`	TEXT,
+	`icecekAdedi`	INTEGER,
+	`tatliAdi`	TEXT,
+	`tatliAdedi`	INTEGER,
+	`salataAdi`	TEXT,
+	`salataAdedi`	INTEGER,
+	`fiyat` INTEGER,
+	`aciklama` TEXT,
+	PRIMARY KEY(`masaId`)
+		)''')
+		
+conn.execute('''CREATE TABLE `genelsiparis` (
+	`id` INTEGER,
+	`urunAdi`	TEXT,
+	`urunAdedi`	INTEGER,
+	`gelir` INTEGER,
 	PRIMARY KEY(`id`)
 		)''')
 		
-conn.execute('''CREATE TABLE `ogretmenler` (
-	`id`	INTEGER,
-	`ogretmenAdi` TEXT,
-	`date`  DATE,
-	`pakettipi` TEXT
-		)''')
 		
-conn.execute('''CREATE TABLE `hareketler` (
-	`id`	INTEGER,
-	`name`	TEXT,
-	`description`	TEXT,
-	`video`	TEXT,
-	PRIMARY KEY(`id`)
-		)''')
-		
-conn.execute('''CREATE TABLE `pakettipi` (
-	`id`	INTEGER,
-	`paketadi`	TEXT,
-	`paketfiyati`	INTEGER,
-	`paketaciklamasi` TEXT,
-	PRIMARY KEY(`id`)
-		)''')
-
-conn.execute('''CREATE TABLE `kategoriler` (
+conn.execute('''CREATE TABLE `yemekler` (
 	`categoryId`	INTEGER,
 	`isim`	TEXT,
+	`fiyat` INTEGER,
 	PRIMARY KEY(`categoryId`)
 		)''')
+
+conn.execute('''CREATE TABLE `tatlilar` (
+	`categoryId`	INTEGER,
+	`isim`	TEXT,
+	`fiyat` INTEGER,
+	PRIMARY KEY(`categoryId`)
+		)''')
+
+conn.execute('''CREATE TABLE `icecekler` (
+	`categoryId`	INTEGER,
+	`isim`	TEXT,
+	`fiyat` INTEGER,
+	PRIMARY KEY(`categoryId`)
+		)''')
+		
+		
+conn.execute('INSERT INTO kullanicilar (adi,soyadi,email,kullaniciAdi,parola,adres,tel,adminMi) VALUES ( "a","a","a@a","a","a","a",123,1)')
+
+
 
 conn.commit()
 
