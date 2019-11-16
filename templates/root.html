@@ -1,23 +1,99 @@
 <!DOCTYPE HTML>
 <html>
 
+<style>
+	.clock {
+		border-radius: 100%;
+		background: #ffffff;
+		font-family: "Montserrat";
+		border: 5px solid white;
+		box-shadow: inset 2px 3px 8px 0 rgba(0, 0, 0, 0.1);
+	}
+
+	.wrap {
+		overflow: hidden;
+		position: relative;
+		width: 350px;
+		height: 350px;
+		border-radius: 100%;
+	}
+
+	.minute,
+	.hour {
+		position: absolute;
+		height: 100px;
+		width: 6px;
+		margin: auto;
+		top: -27%;
+		left: 0;
+		bottom: 0;
+		right: 0;
+		background: black;
+		transform-origin: bottom center;
+		transform: rotate(0deg);
+		box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.4);
+		z-index: 1;
+	}
+
+	.minute {
+		position: absolute;
+		height: 130px;
+		width: 4px;
+		top: -38%;
+		left: 0;
+		box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.4);
+		transform: rotate(90deg);
+	}
+
+	.second {
+		position: absolute;
+		height: 90px;
+		width: 2px;
+		margin: auto;
+		top: -26%;
+		left: 0;
+		bottom: 0;
+		right: 0;
+		border-radius: 4px;
+		background: #FF4B3E;
+		transform-origin: bottom center;
+		transform: rotate(180deg);
+		z-index: 1;
+	}
+
+	.dot {
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		width: 12px;
+		height: 12px;
+		border-radius: 100px;
+		background: white;
+		border: 2px solid #1b1b1b;
+		border-radius: 100px;
+		margin: auto;
+		z-index: 1;
+	}
+</style>
+
 <head>
 	<title>Anasayfa</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="{{ url_for('static', filename='css/w3.css') }}">
 	<script type="text/javascript" src="{{ url_for('static', filename = 'js/toggleMenu.js') }}"></script>
-	<link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Pacifico&display=swap" rel="stylesheet">
 </head>
 
 <!-- Navbar -->
-<header style="font-family: 'Roboto', sans-serif;">
+<header style="font-family: 'Pacifico', cursive;">
 	<div>
-		<div class="w3-bar w3-gym11 w3-card w3-left-align w3-large">
-			<a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-padding-large w3-hover-white w3-large w3-gym11"
+		<div class="w3-bar w3-brique w3-card w3-left-align w3-large">
+			<a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-padding-large w3-hover-white w3-large w3-brique"
 				href="javascript:void(0);" onclick="toggleMenu()" title="Toggle Navigation Menu">Menu</a>
 			<a href="/">
-				<img class="w3-bar-item w3-image w3-circle" style="height: 50px; width: auto"
-					src="{{ url_for('static', filename='images/sitelogo.jpg') }}" />
+				<b class="w3-bar-item w3-image w3-circle" style="height: 50px; width: auto">Geçmiş.</b>
 			</a>
 			<a class="w3-bar-item w3-hide-small w3-padding-large w3-black"><b>
 					{% if adi %}
@@ -27,19 +103,21 @@
 					{% endif %}
 				</b></a>
 			{% if not girildiMi %}
-			<a class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-gym11" href="/loginForm">Giriş
+			<a class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-brique" href="/loginForm">Giriş
 				Yap</a>
 			{% else %}
 			<a href="/tablesScreen"
 				class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Masalar</a>
-			<a href="/orderScreenAll"
-				class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Tüm sipariş detayları</a>
-			<a href="/stockTracker"
-				class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Stok takip</a>
-			<a href="/listOfPeople"
-				class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Personeller</a>
 			<a href="/listOfFoods"
 				class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Yemeklerin Listesi</a>
+				{% if adminMi == 1 %}
+			<a href="/orderScreenAll" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Tüm
+				sipariş detayları</a>
+			<a href="/stockTracker" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Stok
+				takip</a>
+			<a href="/listOfPeople"
+				class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Personeller</a>
+				{% endif %}
 			<a href="/logout"
 				class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white w3-right">Çıkış</a>
 			{% endif %}
@@ -48,19 +126,23 @@
 		<!-- Navbar on small screens -->
 		<div id="navBar" class="w3-bar-block w3-white w3-hide w3-hide-large w3-hide-medium w3-large">
 			{% if not girildiMi %}
-			<a class="w3-bar-item w3-button w3-padding-large w3-hover-gym11" href="/loginForm">Giriş
+			<a class="w3-bar-item w3-button w3-padding-large w3-hover-brique" href="/loginForm">Giriş
 				Yap</a>
 			{% else %}
 			<a href="/tablesScreen"
-			class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Masalar</a>
-		<a href="/orderScreenAll"
-			class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Tüm sipariş detayları</a>
-		<a href="/stockTracker"
-			class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Stok takip</a>
-		<a href="/listOfPeople"
-			class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Personeller</a>
-		<a href="/logout"
-			class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white w3-right">Çıkış</a>
+				class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Masalar</a>
+			<a href="/listOfFoods"
+				class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Yemeklerin Listesi</a>
+				{% if adminMi == 1 %}
+			<a href="/orderScreenAll" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Tüm
+				sipariş detayları</a>
+			<a href="/stockTracker" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Stok
+				takip</a>
+			<a href="/listOfPeople"
+				class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Personeller</a>
+				{% endif %}
+			<a href="/logout"
+				class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white w3-right">Çıkış</a>
 			{% endif %}
 		</div>
 	</div>
@@ -72,10 +154,20 @@
 <!-- Content -->
 
 <body
-	style="font-family: 'Roboto', sans-serif; background-image: url({{ url_for('static', filename='images/root_background.jpg') }}); background-position: center; background-repeat: no-repeat;background-size: cover;">
+	style="font-family: 'Pacifico', cursive; background-image: url({{ url_for('static', filename='images/root_background.png') }}); background-position: center;">
 	<div class="w3-display-container">
-		<div class="w3-content w3-center">
-			<img class="w3-bar-item w3-image w3-circle" src="{{ url_for('static', filename='images/sitelogo.jpg') }}" />
+		<div class="w3-content w3-center"
+			style="display: flex; align-items: center; justify-content: center; height: 80vh;">
+			<div class="clock">
+				<div class="wrap">
+					<span class="hour"></span>
+					<span class="minute"></span>
+					<span class="second"></span>
+					<span class="dot"></span>
+				</div>
+			</div>
+
+			<script type="text/javascript" src="{{ url_for('static', filename = 'js/rootClock.js') }}"></script>
 		</div>
 	</div>
 </body>

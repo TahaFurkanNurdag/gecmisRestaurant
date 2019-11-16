@@ -7,7 +7,7 @@ import os  # hashlib sifreleme icin, os upload islemleri icin
 from werkzeug.utils import secure_filename
 from datetime import date, timedelta
 import calendar  # to check clients days
-import shutil # Backup lib
+import shutil  # Backup lib
 
 app = Flask(__name__)
 app.secret_key = 'random string'
@@ -35,7 +35,7 @@ def getLoginDetails():
         except Exception as e:
             print(e)
     conn.close()  # connection kapatildi
-    return (userId, girildiMi,adi)  # fonksiyonun dondurdugu degiskenler
+    return (userId, girildiMi, adi)  # fonksiyonun dondurdugu degiskenler
 
 
 @app.route("/")
@@ -43,9 +43,12 @@ def root():
     if 'email' not in session:  # giris yapilmadiysa
         adminMi = 0  # admin mi degiskeni sifir olacak
         session['adminMi'] = adminMi  # bu session icine aktarilacak
+    else:
+        adminMi = session['adminMi']
     # yukarida olusturulan fonksiyondan degerler cekiliyor
     userId, girildiMi, adi = getLoginDetails()
-    return render_template('root.html', girildiMi=girildiMi, adi=adi)
+    return render_template('root.html', girildiMi=girildiMi, adi=adi, adminMi=adminMi)
+
 
 @app.route("/loginForm")  # giris sayfasi
 def loginForm():
@@ -53,7 +56,6 @@ def loginForm():
         return redirect(url_for('root'))
     else:
         return render_template('login_page.html', error='')
-
 
 # login_page.html sayfasindan cagirilir
 @app.route("/login", methods=['POST', 'GET'])
@@ -113,13 +115,14 @@ def register():
         adres = request.form['adres']
         # html'de doldurulan alanlar degiskenlere aktarildi
         tel = request.form['tel']
-        kullaniciAdi=request.form['kullaniciAdi']
-        adminMi=request.form['adminMi']
+        kullaniciAdi = request.form['kullaniciAdi']
+        adminMi = request.form['adminMi']
 
         with sqlite3.connect('database.db') as con:
             try:
                 cur = con.cursor()
-                cur.execute('INSERT INTO kullanicilar (adi,soyadi,email,kullaniciAdi,parola,adres,tel,adminMi) VALUES ( ?,?,?,?,?,?,?,?)', (adi,soyadi,email,kullaniciAdi,parola,adres,tel,adminMi))
+                cur.execute('INSERT INTO kullanicilar (adi,soyadi,email,kullaniciAdi,parola,adres,tel,adminMi) VALUES ( ?,?,?,?,?,?,?,?)',
+                            (adi, soyadi, email, kullaniciAdi, parola, adres, tel, adminMi))
                 con.commit()  # veritabanina kaydedildi
                 msg = "Kayıt Başarılı"
             except Exception as e:
@@ -137,11 +140,13 @@ def registrationForm():
     if 'email' not in session:  # bu kisim usttekilerle ayni mantik
         adminMi = 0
         session['adminMi'] = adminMi
+    else:
+        adminMi = session['adminMi']
     if session['adminMi'] == 0:  # bu kisim usttekilerle ayni mantik
         return redirect(url_for('root'))
     userId, girildiMi, adi = getLoginDetails()
     if session['adminMi'] == 1:
-        return render_template("sign_up.html", userId=userId, girildiMi=girildiMi, adi=adi)
+        return render_template("sign_up.html", userId=userId, girildiMi=girildiMi, adi=adi, adminMi=adminMi)
     else:
         # giris yaptiysa kaydolma sayfasi acilmaz anasayfaya yonlendirilir
         return redirect(url_for('root'))
@@ -151,42 +156,48 @@ def allowed_file(filename):  # fotograf isimlerini duzenli hale getirmek icin
     return '.' in filename and \
         filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
 
+
 @app.route("/orderScreenAll")
 def orderScreenAll():
-    if 'email' not in session:  # bu kisim usttekilerle ayni mantik
-        adminMi = 1
-        session['adminMi'] = adminMi
+    if 'email' not in session:  # giris yapilmadiysa
+        adminMi = 0  # admin mi degiskeni sifir olacak
+        session['adminMi'] = adminMi  # bu session icine aktarilacak
+    else:
+        adminMi = session['adminMi']
     if session['adminMi'] == 0:  # bu kisim usttekilerle ayni mantik
         return redirect(url_for('root'))
     if 'email' not in session:  # bu kisim usttekilerle ayni mantik
         return redirect(url_for('loginForm'))
-    msg=""
+    msg = ""
     userId, girildiMi, adi = getLoginDetails()
     con = sqlite3.connect('database.db')
     cur = con.cursor()
     cur.execute("SELECT * FROM genelsiparis")
     data = cur.fetchall()  # data from database
-    return render_template("all_order_details.html", value=data, userId=userId, girildiMi=girildiMi, adi=adi, msg=msg)
+    return render_template("all_order_details.html", value=data, userId=userId, girildiMi=girildiMi, adi=adi, msg=msg, adminMi=adminMi)
 
-############## LIST OF PEOPLE ############################ 
+############## LIST OF PEOPLE ############################
 @app.route("/listOfPeople")
 def listOfPeople():
-    if 'email' not in session:  # bu kisim usttekilerle ayni mantik
-        adminMi = 1
-        session['adminMi'] = adminMi
+    if 'email' not in session:  # giris yapilmadiysa
+        adminMi = 0  # admin mi degiskeni sifir olacak
+        session['adminMi'] = adminMi  # bu session icine aktarilacak
+    else:
+        adminMi = session['adminMi']
     if session['adminMi'] == 0:  # bu kisim usttekilerle ayni mantik
         return redirect(url_for('root'))
     if 'email' not in session:  # bu kisim usttekilerle ayni mantik
         return redirect(url_for('loginForm'))
-    msg=""
+    msg = ""
     userId, girildiMi, adi = getLoginDetails()
     con = sqlite3.connect('database.db')
     cur = con.cursor()
     cur.execute("SELECT * FROM kullanicilar")
     data = cur.fetchall()  # data from database
-    return render_template("list_Of_People.html", value=data, userId=userId, girildiMi=girildiMi, adi=adi, msg=msg)
+    return render_template("list_Of_People.html", value=data, userId=userId, girildiMi=girildiMi, adi=adi, msg=msg, adminMi=adminMi)
 
-@app.route("/deletePersonal", methods = ['GET', 'POST'])
+
+@app.route("/deletePersonal", methods=['GET', 'POST'])
 def deletePersonal():
     if request.method == "POST":
         id = request.form['id']
@@ -204,21 +215,18 @@ def deletePersonal():
     else:
         print("error")
         return redirect(url_for('root'))
-############## LIST OF PEOPLE ############################ 
 
-
-
-############## LIST OF FOODS ############################    
+############## LIST OF FOODS ############################
 @app.route("/listOfFoods")
 def listOfFoods():
     if 'email' not in session:  # bu kisim usttekilerle ayni mantik
-        adminMi = 1
+        adminMi = 0
         session['adminMi'] = adminMi
-    if session['adminMi'] == 0:  # bu kisim usttekilerle ayni mantik
-        return redirect(url_for('root'))
+    else:
+        adminMi = session['adminMi']
     if 'email' not in session:  # bu kisim usttekilerle ayni mantik
         return redirect(url_for('loginForm'))
-    msg=""
+    msg = ""
     userId, girildiMi, adi = getLoginDetails()
     con = sqlite3.connect('database.db')
     cur = con.cursor()
@@ -228,8 +236,7 @@ def listOfFoods():
     tatlilar = cur.fetchall()
     cur.execute("select * from icecekler")
     icecekler = cur.fetchall()
-    return render_template("list_Of_foods.html", tatlilar=tatlilar,icecekler=icecekler,value=data, userId=userId, girildiMi=girildiMi, adi=adi, msg=msg)
-
+    return render_template("list_Of_foods.html", tatlilar=tatlilar, icecekler=icecekler, value=data, userId=userId, girildiMi=girildiMi, adi=adi, msg=msg, adminMi=adminMi)
 
 
 @app.route("/addItemFood", methods=["GET", "POST"])
@@ -255,7 +262,8 @@ def addItemFood():
     else:
         return redirect(url_for('root'))
 
-@app.route("/deleteFood", methods = ['GET', 'POST'])
+
+@app.route("/deleteFood", methods=['GET', 'POST'])
 def deleteFood():
     if request.method == "POST":
         id = request.form['id']
@@ -298,7 +306,8 @@ def addItemDesert():
     else:
         return redirect(url_for('root'))
 
-@app.route("/deleteDesert", methods = ['GET', 'POST'])
+
+@app.route("/deleteDesert", methods=['GET', 'POST'])
 def deleteDesert():
     if request.method == "POST":
         id = request.form['id']
@@ -316,6 +325,7 @@ def deleteDesert():
     else:
         print("error")
         return redirect(url_for('root'))
+
 
 @app.route("/addItemDrinks", methods=["GET", "POST"])
 def addItemDrinks():
@@ -340,7 +350,8 @@ def addItemDrinks():
     else:
         return redirect(url_for('root'))
 
-@app.route("/deleteDrinks", methods = ['GET', 'POST'])
+
+@app.route("/deleteDrinks", methods=['GET', 'POST'])
 def deleteDrinks():
     if request.method == "POST":
         id = request.form['id']
@@ -359,7 +370,9 @@ def deleteDrinks():
         print("error")
         return redirect(url_for('root'))
 
-############## LIST OF FOODS ############################   
+############## LIST OF FOODS ############################
+
+
 def parse(data):  # urunleri listelememizde kullandigimiz fonksiyon. birden fazla ayni satir olmasin diye yazildi
     ans = []
     i = 0
@@ -372,7 +385,6 @@ def parse(data):  # urunleri listelememizde kullandigimiz fonksiyon. birden fazl
             i += 1
         ans.append(curr)
     return ans
-
 
 
 if __name__ == '__main__':

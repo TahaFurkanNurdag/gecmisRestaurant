@@ -1,76 +1,6 @@
 <!DOCTYPE HTML>
 <html>
 
-<head>
-	<title>Trainer Details</title>
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet" href="{{ url_for('static', filename='css/w3.css') }}">
-	<script type="text/javascript" src="{{ url_for('static', filename = 'js/toggleMenu.js') }}"></script>
-	<link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
-</head>
-
-<!-- Navbar -->
-<header style="font-family: 'Roboto', sans-serif;">
-	<div>
-		<div class="w3-bar w3-gym11 w3-card w3-left-align w3-large">
-			<a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-padding-large w3-hover-white w3-large w3-gym11"
-				href="javascript:void(0);" onclick="toggleMenu()" title="Toggle Navigation Menu">Menu</a>
-			<a href="/">
-				<img class="w3-bar-item w3-image w3-circle" style="height: 50px; width: auto"
-					src="{{ url_for('static', filename='images/sitelogo.png') }}" />
-			</a>
-			<a class="w3-bar-item w3-hide-small w3-padding-large w3-black"><b>
-					{% if adi %}
-					{{adi}}
-					{% else %}
-					!
-					{% endif %}
-				</b></a>
-			{% if not girildiMi %}
-			<a class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-gym11" href="/loginForm">Giriş
-				Yap</a>
-			{% else %}
-			<a href="/tablesScreen"
-				class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Masalar</a>
-			<a href="/orderScreenAll"
-				class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Tüm sipariş detayları</a>
-			<a href="/stockTracker"
-				class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Stok takip</a>
-			<a href="/listOfPeople"
-				class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Personeller</a>
-			<a href="/listOfFoods"
-				class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Yemeklerin Listesi</a>
-			<a href="/logout"
-				class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white w3-right">Logout</a>
-			{% endif %}
-		</div>
-
-		<!-- Navbar on small screens -->
-		<div id="navBar" class="w3-bar-block w3-white w3-hide w3-hide-large w3-hide-medium w3-large">
-			{% if not girildiMi %}
-			<a class="w3-bar-item w3-button w3-padding-large w3-hover-gym11" href="/loginForm">Giriş
-				Yap</a>
-			{% else %}
-			<a href="/tablesScreen"
-				class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Masalar</a>
-			<a href="/orderScreenAll"
-				class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Tüm sipariş detayları</a>
-			<a href="/stockTracker"
-				class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Stok takip</a>
-			<a href="/listOfPeople"
-				class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Personeller</a>
-			<a href="/listOfFoods"
-				class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Yemeklerin Listesi</a>
-			<a href="/logout" class="w3-bar-item w3-button w3-padding-large">Logout</a>
-			{% endif %}
-		</div>
-	</div>
-	<br class="w3-margin-bottom">
-	<br class="w3-margin-bottom">
-</header>
-<!-- Navbar End -->
-
-<!-- Content -->
 <style type="text/css">
 	.form-style-10 {
 		width: 450px;
@@ -93,7 +23,7 @@
 	}
 
 	.form-style-10 h1 {
-		background: #d33428;
+		background: #054950;
 		padding: 20px 30px 15px 30px;
 		margin: -30px -30px 30px -30px;
 		border-radius: 10px 10px 0 0;
@@ -105,7 +35,7 @@
 		-moz-box-shadow: inset 0px 2px 2px 0px rgba(255, 255, 255, 0.17);
 		-webkit-box-shadow: inset 0px 2px 2px 0px rgba(255, 255, 255, 0.17);
 		box-shadow: inset 0px 2px 2px 0px rgba(255, 255, 255, 0.17);
-		border: 1px solid #d33428;
+		border: 1px solid #054950;
 	}
 
 	.form-style-10 h1>span {
@@ -117,7 +47,7 @@
 	.form-style-10 label {
 		display: block;
 		font: 13px Arial, Helvetica, sans-serif;
-		color: #d33428;
+		color: #789A9F;
 		margin-bottom: 15px;
 	}
 
@@ -141,7 +71,7 @@
 		border-radius: 6px;
 		-webkit-border-radius: 6px;
 		-moz-border-radius: 6px;
-		border: 2px solid #d33428;
+		border: 2px solid #054950;
 		box-shadow: inset 0px 1px 1px rgba(0, 0, 0, 0.33);
 		-moz-box-shadow: inset 0px 1px 1px rgba(0, 0, 0, 0.33);
 		-webkit-box-shadow: inset 0px 1px 1px rgba(0, 0, 0, 0.33);
@@ -149,12 +79,12 @@
 
 	.form-style-10 .section {
 		font: normal 20px 'Bitter', serif;
-		color: #d33428;
+		color: #054950;
 		margin-bottom: 5px;
 	}
 
 	.form-style-10 .section span {
-		background: #d33428;
+		background: #054950;
 		padding: 5px 10px 5px 10px;
 		position: absolute;
 		border-radius: 50%;
@@ -169,7 +99,7 @@
 
 	.form-style-10 input[type="button"],
 	.form-style-10 input[type="submit"] {
-		background: #d33428;
+		background: #054950;
 		padding: 8px 20px 8px 20px;
 		border-radius: 5px;
 		-webkit-border-radius: 5px;
@@ -180,13 +110,13 @@
 		-moz-box-shadow: inset 0px 2px 2px 0px rgba(255, 255, 255, 0.17);
 		-webkit-box-shadow: inset 0px 2px 2px 0px rgba(255, 255, 255, 0.17);
 		box-shadow: inset 0px 2px 2px 0px rgba(255, 255, 255, 0.17);
-		border: 1px solid #d33428;
+		border: 1px solid #054950;
 		font-size: 15px;
 	}
 
 	.form-style-10 input[type="button"]:hover,
 	.form-style-10 input[type="submit"]:hover {
-		background: #d33428;
+		background: #054950;
 		-moz-box-shadow: inset 0px 2px 2px 0px rgba(255, 255, 255, 0.28);
 		-webkit-box-shadow: inset 0px 2px 2px 0px rgba(255, 255, 255, 0.28);
 		box-shadow: inset 0px 2px 2px 0px rgba(255, 255, 255, 0.28);
@@ -196,59 +126,126 @@
 		float: right;
 		width: 250px;
 		font: 12px Arial, Helvetica, sans-serif;
-		color: #d33428;
+		color: #054950;
 		margin-top: 10px;
 		text-align: right;
 	}
 </style>
 
-<body style="font-family: 'Roboto', sans-serif; background-image: url({{ url_for('static', filename='images/root_background.jpg') }}); background-position: center; background-repeat: no-repeat;background-size: cover;">
+<head>
+	<title>Personeller Listesi</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/w3.css') }}">
+	<script type="text/javascript" src="{{ url_for('static', filename = 'js/toggleMenu.js') }}"></script>
+	<link href="https://fonts.googleapis.com/css?family=Pacifico&display=swap" rel="stylesheet">
+</head>
 
-	
+<!-- Navbar -->
+<header style="font-family: 'Pacifico', cursive;">
+	<div>
+		<div class="w3-bar w3-brique w3-card w3-left-align w3-large">
+			<a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-padding-large w3-hover-white w3-large w3-brique"
+				href="javascript:void(0);" onclick="toggleMenu()" title="Toggle Navigation Menu">Menu</a>
+			<a href="/">
+				<b class="w3-bar-item w3-image w3-circle" style="height: 50px; width: auto">Geçmiş.</b>
+			</a>
+			<a class="w3-bar-item w3-hide-small w3-padding-large w3-black"><b>
+					{% if adi %}
+					{{adi}}
+					{% else %}
+					!
+					{% endif %}
+				</b></a>
+			{% if not girildiMi %}
+			<a class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-brique" href="/loginForm">Giriş
+				Yap</a>
+			{% else %}
+			<a href="/tablesScreen"
+				class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Masalar</a>
+			<a href="/listOfFoods"
+				class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Yemeklerin Listesi</a>
+			{% if adminMi == 1 %}
+			<a href="/orderScreenAll" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Tüm
+				sipariş detayları</a>
+			<a href="/stockTracker" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Stok
+				takip</a>
+			<a href="/listOfPeople"
+				class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Personeller</a>
+			{% endif %}
+			<a href="/logout"
+				class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white w3-right">Çıkış</a>
+			{% endif %}
+		</div>
+
+		<!-- Navbar on small screens -->
+		<div id="navBar" class="w3-bar-block w3-white w3-hide w3-hide-large w3-hide-medium w3-large">
+			{% if not girildiMi %}
+			<a class="w3-bar-item w3-button w3-padding-large w3-hover-brique" href="/loginForm">Giriş
+				Yap</a>
+			{% else %}
+			<a href="/tablesScreen"
+				class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Masalar</a>
+			<a href="/listOfFoods"
+				class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Yemeklerin Listesi</a>
+			{% if adminMi == 1 %}
+			<a href="/orderScreenAll" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Tüm
+				sipariş detayları</a>
+			<a href="/stockTracker" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Stok
+				takip</a>
+			<a href="/listOfPeople"
+				class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Personeller</a>
+			{% endif %}
+			<a href="/logout"
+				class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white w3-right">Çıkış</a>
+			{% endif %}
+		</div>
+	</div>
+	<br class="w3-margin-bottom">
+	<br class="w3-margin-bottom">
+</header>
+<!-- Navbar End -->
+
+<!-- Content -->
+
+<body
+	style="font-family: 'Pacifico', cursive; background-image: url({{ url_for('static', filename='images/root_background.png') }}); background-position: center;">
 	<div class="w3-margin w3-padding w3-center w3-white w3-card" style="overflow-x:auto;">
 		<div class="w3-container">
-			<div class="w3-padding w3-quarter">
-				<form class="form-style-10" action="/deletePersonal" method="POST">
-					<div class="section">Personel Sil</div>
-					<div class="inner-wrap">
-						<p>Personel Numarası<input type="text" name="id"></p>
-					</div>
-					<input type="submit" value="Personel sil">
-				</form>
-			</div>
-		<br>
-		<table style="width: 100%">
-			<thead>
-				<tr>
-					<th>Id</th>
-					<th>Adı</th>
-					<th>Soyadı</th>
-					<th>E-mail</th>	
-					<th>Kullanıcı adı</th>
-					<th>Adres</th>	
-					<th>Telefon</th>	
-					<th>Admin mi</th>						
-				</tr>
-			</thead>
-			<tbody>
-				{% for row in value %}
-				<tr>
-					<td class="w3-gray">{{row[0]}}</td>
-					<td class="w3-gray">{{row[1]}}</td>
-					<td class="w3-gray">{{row[2]}}</td>
-					<td class="w3-gray">{{row[3]}}</td>
-					<td class="w3-gray">{{row[4]}}</td>
-					<td class="w3-gray">{{row[6]}}</td>
-					<td class="w3-gray">{{row[7]}}</td>
-					<td class="w3-gray">{{row[8]}}</td>
-
-					 
-				</tr>
-				{% endfor %}
-			</tbody>
-		</table>
-		<br>
-	</div>
+			<br>
+			<table style="width: 100%">
+				<thead>
+					<tr>
+						<th>Id</th>
+						<th>Adı</th>
+						<th>Soyadı</th>
+						<th>E-mail</th>
+						<th>Kullanıcı adı</th>
+						<th>Adres</th>
+						<th>Telefon</th>
+						<th>Admin mi</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for row in value %}
+					<tr>
+						<td class="w3-gray">{{row[0]}}</td>
+						<td class="w3-gray">{{row[1]}}</td>
+						<td class="w3-gray">{{row[2]}}</td>
+						<td class="w3-gray">{{row[3]}}</td>
+						<td class="w3-gray">{{row[4]}}</td>
+						<td class="w3-gray">{{row[6]}}</td>
+						<td class="w3-gray">{{row[7]}}</td>
+						<td class="w3-gray">{{row[8]}}</td>
+						<td class="w3-red"><form action="/deletePersonal" method="POST">
+								<p hidden><input type="text" name="id" value={{row[0]}}></p>
+							<input type="submit" class="w3-button w3-red" value="Sil">
+						</form></td>
+					</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+			<br>
+		</div>
 
 </body>
 
