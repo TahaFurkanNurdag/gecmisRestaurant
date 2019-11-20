@@ -1,0 +1,44 @@
+<header style="font-family: 'Roboto', sans-serif;">
+    <div>
+        <div class="w3-bar w3-brique w3-card w3-left-align w3-large">
+            <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-padding-large w3-hover-white w3-large w3-brique" href="javascript:void(0);" onclick="toggleMenu()" title="Toggle Navigation Menu">Menu</a>
+            <a href="/">
+                <b class="w3-bar-item w3-image w3-circle" style="height: 50px; width: auto">Geçmiş.</b>
+            </a>
+            <a class="w3-bar-item w3-hide-small w3-padding-large w3-black"><b>
+					{% if adi %}
+					{{adi}}
+					{% else %}
+					!
+					{% endif %}
+				</b></a> {% if not girildiMi %}
+            <a class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-brique" href="/loginForm">Giriş
+				Yap</a> {% else %}
+            <a href="/tablesScreen" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Masalar</a>
+            <a href="/listOfFoods" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Yemeklerin Listesi</a> {% if adminMi == 1 %}
+            <a href="/orderScreenAll" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Tüm
+				sipariş detayları</a>
+            <a href="/stockTracker" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Stok
+				takip</a>
+            <a href="/listOfPeople" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Personeller</a> {% endif %}
+            <a href="/logout" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white w3-right">Çıkış</a> {% endif %}
+        </div>
+
+        <!-- Navbar on small screens -->
+        <div id="navBar" class="w3-bar-block w3-white w3-hide w3-hide-large w3-hide-medium w3-large">
+            {% if not girildiMi %}
+            <a class="w3-bar-item w3-button w3-padding-large w3-hover-brique" href="/loginForm">Giriş
+				Yap</a> {% else %}
+            <a href="/tablesScreen" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Masalar</a>
+            <a href="/listOfFoods" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Yemeklerin Listesi</a> {% if adminMi == 1 %}
+            <a href="/orderScreenAll" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Tüm
+				sipariş detayları</a>
+            <a href="/stockTracker" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Stok
+				takip</a>
+            <a href="/listOfPeople" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Personeller</a> {% endif %}
+            <a href="/logout" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white w3-right">Çıkış</a> {% endif %}
+        </div>
+    </div>
+    <br class="w3-margin-bottom">
+    <br class="w3-margin-bottom">
+</header>

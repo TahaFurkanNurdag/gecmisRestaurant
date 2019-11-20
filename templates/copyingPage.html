@@ -2,79 +2,33 @@
 <html>
 
 <head>
-	<title>Copying</title>
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet" href="{{ url_for('static', filename='css/w3.css') }}">
-	<script type="text/javascript" src="{{ url_for('static', filename = 'js/toggleMenu.js') }}"></script>
-	<link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
+    <title>Copying</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/w3.css') }}">
+    <script type="text/javascript" src="{{ url_for('static', filename = 'js/toggleMenu.js') }}"></script>
+    <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
 </head>
 
 <!-- Navbar -->
-<header style="font-family: 'Roboto', sans-serif;">
-	<div>
-		<div class="w3-bar w3-gym11 w3-card w3-left-align w3-large">
-			<a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-padding-large w3-hover-white w3-large w3-gym11"
-				href="javascript:void(0);" onclick="toggleMenu()" title="Toggle Navigation Menu">Menu</a>
-			<a href="/">
-				<img class="w3-bar-item w3-image w3-circle" style="height: 50px; width: auto"
-					src="{{ url_for('static', filename='images/sitelogo.png') }}" />
-			</a>
-			<a class="w3-bar-item w3-hide-small w3-padding-large w3-black"><b>
-					{% if adi %}
-					{{adi}}
-					{% else %}
-					!
-					{% endif %}
-				</b></a>
-			{% if not girildiMi %}
-			<a class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-gym11" href="/loginForm">Giriş
-				Yap</a>
-			{% else %}
-			<a href="/accountingMain"
-				class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Accounting</a>
-			<a href="/clientMain" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Client</a>
-			<a href="/addcategory" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Add
-				Packages</a>
-			<a href="/logout"
-				class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white w3-right">Logout</a>
-			{% endif %}
-		</div>
-
-		<!-- Navbar on small screens -->
-		<div id="navBar" class="w3-bar-block w3-white w3-hide w3-hide-large w3-hide-medium w3-large">
-			{% if not girildiMi %}
-			<a class="w3-bar-item w3-button w3-padding-large w3-hover-gym11" href="/loginForm">Giriş
-				Yap</a>
-			{% else %}
-			<a href="/account/profile" class="w3-bar-item w3-button w3-padding-large">Accounting</a>
-			<a href="/references" class="w3-bar-item w3-button w3-padding-large">Client</a>
-			<a href="/adminPage" class="w3-bar-item w3-button w3-padding-large">Add Packages</a>
-			<a href="/logout" class="w3-bar-item w3-button w3-padding-large">Logout</a>
-			{% endif %}
-		</div>
-	</div>
-	<br class="w3-margin-bottom">
-	<br class="w3-margin-bottom">
-</header>
+{% include 'HEADER.html' %}
 <!-- Navbar End -->
 
 <!-- Content -->
 
-<body
-	style="font-family: 'Roboto', sans-serif; background-image: url({{ url_for('static', filename='images/root_background.jpg') }}); background-position: center; background-repeat: no-repeat;background-size: cover;">
-	<div>
-		<div class="w3-center">
-			<a href="/backupAccounting" class="w3-gym11 w3-button w3-hide-small w3-padding-large w3-hover-white">Backup & Reset Accounting.</a>
-			<a href="/backupProcedure" class="w3-gym11 w3-button w3-hide-small w3-padding-large w3-hover-white">Take backup.</a>
-		</div>		
-		<p class="w3-center w3-gym11">Generated files will be located at your Root folder.</p>
-	</div>
-	<hr>
-	<div class="w3-display-container">
-		<div class="w3-content w3-center">
-			<img class="w3-bar-item w3-image w3-circle" src="{{ url_for('static', filename='images/sitelogo.png') }}" />
-		</div>
-	</div>
+<body style="font-family: 'Roboto', sans-serif; background-image: url({{ url_for('static', filename='images/root_background.jpg') }}); background-position: center; background-repeat: no-repeat;background-size: cover;">
+    <div>
+        <div class="w3-center">
+            <a href="/backupAccounting" class="w3-gym11 w3-button w3-hide-small w3-padding-large w3-hover-white">Backup & Reset Accounting.</a>
+            <a href="/backupProcedure" class="w3-gym11 w3-button w3-hide-small w3-padding-large w3-hover-white">Take backup.</a>
+        </div>
+        <p class="w3-center w3-gym11">Generated files will be located at your Root folder.</p>
+    </div>
+    <hr>
+    <div class="w3-display-container">
+        <div class="w3-content w3-center">
+            <img class="w3-bar-item w3-image w3-circle" src="{{ url_for('static', filename='images/sitelogo.png') }}" />
+        </div>
+    </div>
 </body>
 <!-- Content End-->
 

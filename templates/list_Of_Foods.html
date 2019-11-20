@@ -2,226 +2,142 @@
 <html>
 
 <head>
-	<title>Yemekler Listesi</title>
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet" href="{{ url_for('static', filename='css/w3.css') }}">
-	<script type="text/javascript" src="{{ url_for('static', filename = 'js/toggleMenu.js') }}"></script>
-	<link href="https://fonts.googleapis.com/css?family=Pacifico&display=swap" rel="stylesheet">
+    <title>Yemekler Listesi</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/w3.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/forms.css') }}">
+    <script type="text/javascript" src="{{ url_for('static', filename = 'js/toggleMenu.js') }}"></script>
+    <link href="https://fonts.googleapis.com/css?family=Pacifico&display=swap" rel="stylesheet">
 </head>
 
 <!-- Navbar -->
-<header style="font-family: 'Pacifico', cursive;">
-	<div>
-		<div class="w3-bar w3-brique w3-card w3-left-align w3-large">
-			<a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-padding-large w3-hover-white w3-large w3-brique"
-				href="javascript:void(0);" onclick="toggleMenu()" title="Toggle Navigation Menu">Menu</a>
-			<a href="/">
-				<b class="w3-bar-item w3-image w3-circle" style="height: 50px; width: auto">Geçmiş.</b>
-			</a>
-			<a class="w3-bar-item w3-hide-small w3-padding-large w3-black"><b>
-					{% if adi %}
-					{{adi}}
-					{% else %}
-					!
-					{% endif %}
-				</b></a>
-			{% if not girildiMi %}
-			<a class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-brique" href="/loginForm">Giriş
-				Yap</a>
-			{% else %}
-			<a href="/tablesScreen"
-				class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Masalar</a>
-			<a href="/listOfFoods"
-				class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Yemeklerin Listesi</a>
-			{% if adminMi == 1 %}
-			<a href="/orderScreenAll" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Tüm
-				sipariş detayları</a>
-			<a href="/stockTracker" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Stok
-				takip</a>
-			<a href="/listOfPeople"
-				class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Personeller</a>
-			{% endif %}
-			<a href="/logout"
-				class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white w3-right">Çıkış</a>
-			{% endif %}
-		</div>
-
-		<!-- Navbar on small screens -->
-		<div id="navBar" class="w3-bar-block w3-white w3-hide w3-hide-large w3-hide-medium w3-large">
-			{% if not girildiMi %}
-			<a class="w3-bar-item w3-button w3-padding-large w3-hover-brique" href="/loginForm">Giriş
-				Yap</a>
-			{% else %}
-			<a href="/tablesScreen"
-				class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Masalar</a>
-			<a href="/listOfFoods"
-				class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Yemeklerin Listesi</a>
-			{% if adminMi == 1 %}
-			<a href="/orderScreenAll" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Tüm
-				sipariş detayları</a>
-			<a href="/stockTracker" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Stok
-				takip</a>
-			<a href="/listOfPeople"
-				class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Personeller</a>
-			{% endif %}
-			<a href="/logout"
-				class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white w3-right">Çıkış</a>
-			{% endif %}
-		</div>
-	</div>
-	<br class="w3-margin-bottom">
-	<br class="w3-margin-bottom">
-</header>
+{% include 'HEADER.html' %}
 <!-- Navbar End -->
 
 <!-- Content -->
 
-<body
-	style="font-family: 'Pacifico', cursive; background-image: url({{ url_for('static', filename='images/root_background.png') }}); background-position: center;">
-	<div class="w3-margin w3-padding w3-center w3-white w3-card" style="overflow-x:auto;">
-		<br>
-		<table style="width: 100%">
-			<form class="form-style-10" action="/deleteFood" method="POST">
-				<div class="section">Yemek Sil</div>
-				<div class="inner-wrap">
-					<p>Yemek Numarası<input type="text" name="id"></p>
-				</div>
-				<input type="submit" value="Yemek sil">
-			</form>
-			<div class="w3-content w3-padding" style="max-width:1564px">
-				<div class="display">
+<body style="font-family: 'Roboto', sans-serif; background-image: url({{ url_for('static', filename='images/root_background.png') }}); background-position: center;">
+    <div class="w3-margin w3-padding w3-center w3-white w3-card" style="overflow-x:auto;">
+        <div class="w3-content w3-padding w3-half">
+            <form class="w3-panel w3-card w3-white form-style-10" action="/addItemFood" method="POST" align="center">
+                <h1>Yemek ekleme alanı</h1>
+                <div class="inner-wrap">
+                    <p>Yemek ekle<input name="yemeginAdi" class="w3-input" type="text" placeholder="Yemeğin Adı">
+                    </p>
+                    <p>Yemek fiyatı<input name="yemeginFiyati" class="w3-input" type="text" placeholder="Yemeğin Fiyatı"></p>
+                </div>
+                <input type="submit" value="Yemek Ekle"></button>
+            </form>
+        </div>
+        <div class="w3-content w3-padding w3-half">
+            <div class="form-style-10">
+                <form action="/deleteFood" method="POST">
+                    <h1>Yemek Sil</h1>
+                    <div class="inner-wrap">
+                        <p>Yemek Numarası<input type="text" name="id"></p>
+                    </div>
+                    <input type="submit" value="Yemek sil">
+                </form>
+            </div>
+        </div>
+        <table style="width: 100%;">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Yemeğin adı</th>
+                    <th>Yemeğin Fiyatı</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in value %}
+                <tr>
+                    <td class="w3-brique">{{row[0]}}</td>
+                    <td class="w3-gray">{{row[1]}}</td>
+                    <td class="w3-gray">{{row[2]}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <br>
+    </div>
 
-					<form class="w3-panel w3-card w3-white form-style-10" action="/addItemFood" method="POST"
-						align="center">
-						<h2>Yemek ekleme alanı</h2>
-						<p>Yemek ekle<input name="yemeginAdi" class="w3-input" type="text" placeholder="Yemeğin Adı">
-						</p>
-						<p>Yemek fiyatı<input name="yemeginFiyati" class="w3-input" type="text"
-								placeholder="Yemeğin Fiyatı"></p>
-						<input type="submit" value="Ekle"></button>
-					</form>
-				</div>
-			</div>
-			<thead>
-				<tr>
-					<th>Id</th>
-					<th>Yemeğin adı</th>
-					<th>Yemeğin Fiyatı</th>
-				</tr>
-			</thead>
-			<tbody>
-				{% for row in value %}
-				<tr>
-					<td class="w3-gray">{{row[0]}}</td>
-					<td class="w3-gray">{{row[1]}}</td>
-					<td class="w3-gray">{{row[2]}}</td>
+    <div class="w3-margin w3-padding w3-center w3-white w3-card" style="overflow-x:auto;">
+        <div class="w3-content w3-padding w3-half">
+            <form class="form-style-10" action="/deleteDesert" method="POST">
+                <h1>Tatlı Sil</h1>
+                <div class="inner-wrap">
+                    <p>Tatlı Numarası<input type="text" name="id"></p>
+                </div>
+                <input type="submit" value="Tatlı sil">
+            </form>
+        </div>
+        <div class="w3-content w3-padding w3-half">
+            <form class="w3-panel w3-card w3-white form-style-10" action="/addItemDesert" method="POST" align="center">
+                <h1>Tatlı ekleme alanı</h1>
+                <p>Tatlı ekle<input name="tatliniAdi" class="w3-input" type="text" placeholder="Tatlının Adı">
+                </p>
+                <p>Tatlı fiyatı<input name="tatliniFiyati" class="w3-input" type="text" placeholder="Tatlının Fiyatı"></p>
+                <input type="submit" value="Ekle"></button>
+            </form>
+        </div>
+        <table style="width: 100%">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Tatlının adı</th>
+                    <th>Tatlının Fiyatı</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in tatlilar %}
+                <tr>
+                    <td class="w3-brique">{{row[0]}}</td>
+                    <td class="w3-gray">{{row[1]}}</td>
+                    <td class="w3-gray">{{row[2]}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <br>
+    </div>
 
-
-				</tr>
-				{% endfor %}
-			</tbody>
-		</table>
-		<br>
-	</div>
-
-	<div class="w3-margin w3-padding w3-center w3-white w3-card" style="overflow-x:auto;">
-		<br>
-		<table style="width: 100%">
-			<form class="form-style-10" action="/deleteDesert" method="POST">
-				<div class="section">Tatlı Sil</div>
-				<div class="inner-wrap">
-					<p>Tatlı Numarası<input type="text" name="id"></p>
-				</div>
-				<input type="submit" value="Tatlı sil">
-			</form>
-			<div class="w3-content w3-padding" style="max-width:1564px">
-				<div class="display">
-
-					<form class="w3-panel w3-card w3-white form-style-10" action="/addItemDesert" method="POST"
-						align="center">
-						<h2>Tatlı ekleme alanı</h2>
-						<p>Tatlı ekle<input name="tatliniAdi" class="w3-input" type="text" placeholder="Tatlının Adı">
-						</p>
-						<p>Tatlınin fiyatı<input name="tatliniFiyati" class="w3-input" type="text"
-								placeholder="Tatlının Fiyatı"></p>
-						<input type="submit" value="Ekle"></button>
-					</form>
-				</div>
-			</div>
-			<div class="w3-margin w3-padding w3-center w3-white w3-card" style="overflow-x:auto;">
-				<br>
-				<table style="width: 100%">
-					<thead>
-						<tr>
-							<th>Id</th>
-							<th>Tatlının adı</th>
-							<th>Tatlının Fiyatı</th>
-						</tr>
-					</thead>
-					<tbody>
-						{% for row in tatlilar %}
-						<tr>
-							<td class="w3-gray">{{row[0]}}</td>
-							<td class="w3-gray">{{row[1]}}</td>
-							<td class="w3-gray">{{row[2]}}</td>
-
-
-						</tr>
-						{% endfor %}
-					</tbody>
-				</table>
-				<br>
-			</div>
-
-			<div class="w3-margin w3-padding w3-center w3-white w3-card" style="overflow-x:auto;">
-				<br>
-				<table style="width: 100%">
-					<form class="form-style-10" action="/deleteDrinks" method="POST">
-						<div class="section">İçecek Sil</div>
-						<div class="inner-wrap">
-							<p>İçecek Numarası<input type="text" name="id"></p>
-						</div>
-						<input type="submit" value="İçecek sil">
-					</form>
-					<div class="w3-content w3-padding" style="max-width:1564px">
-						<div class="display">
-
-							<form class="w3-panel w3-card w3-white form-style-10" action="/addItemDrinks" method="POST"
-								align="center">
-								<h2>İçeceğin ekleme alanı</h2>
-								<p>İçeceği ekle<input name="iceceginAdi" class="w3-input" type="text"
-										placeholder="İçeceğin Adı"></p>
-								<p>İçeceğin fiyatı<input name="iceceginFiyati" class="w3-input" type="text"
-										placeholder="İçeceğin Fiyatı"></p>
-								<input type="submit" value="Ekle"></button>
-							</form>
-						</div>
-					</div>
-					<div class="w3-margin w3-padding w3-center w3-white w3-card" style="overflow-x:auto;">
-						<br>
-						<table style="width: 100%">
-							<thead>
-								<tr>
-									<th>Id</th>
-									<th>İçeceğin adı</th>
-									<th>İçeceğin Fiyatı</th>
-								</tr>
-							</thead>
-							<tbody>
-								{% for row in icecekler %}
-								<tr>
-									<td class="w3-gray">{{row[0]}}</td>
-									<td class="w3-gray">{{row[1]}}</td>
-									<td class="w3-gray">{{row[2]}}</td>
-
-
-								</tr>
-								{% endfor %}
-							</tbody>
-						</table>
-						<br>
-					</div>
-
+    <div class="w3-margin w3-padding w3-center w3-white w3-card" style="overflow-x:auto;">
+        <div class="w3-content w3-padding w3-half">
+            <form class="form-style-10" action="/deleteDrinks" method="POST">
+                <h1>İçecek Sil</h1>
+                <div class="inner-wrap">
+                    <p>İçecek Numarası<input type="text" name="id"></p>
+                </div>
+                <input type="submit" value="İçecek sil">
+            </form>
+        </div>
+        <div class="w3-content w3-padding w3-half">
+            <form class="w3-panel w3-card w3-white form-style-10" action="/addItemDrinks" method="POST" align="center">
+                <h1>İçecek ekleme alanı</h1>
+                <p>İçeceği ekle<input name="iceceginAdi" class="w3-input" type="text" placeholder="İçeceğin Adı"></p>
+                <p>İçeceğin fiyatı<input name="iceceginFiyati" class="w3-input" type="text" placeholder="İçeceğin Fiyatı"></p>
+                <input type="submit" value="Ekle"></button>
+            </form>
+        </div>
+        <table style="width: 100%">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>İçeceğin adı</th>
+                    <th>İçeceğin Fiyatı</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in icecekler %}
+                <tr>
+                    <td class="w3-brique">{{row[0]}}</td>
+                    <td class="w3-gray">{{row[1]}}</td>
+                    <td class="w3-gray">{{row[2]}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 </body>
 
 </html>
