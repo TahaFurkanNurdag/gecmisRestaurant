@@ -46,7 +46,7 @@ def root():
     else:
         adminMi = session['adminMi']
     # yukarida olusturulan fonksiyondan degerler cekiliyor
-    userId, girildiMi, adi = getLoginDetails()
+    girildiMi, adi = getLoginDetails()[1:]
     return render_template('root.html', girildiMi=girildiMi, adi=adi, adminMi=adminMi)
 
 
@@ -82,12 +82,6 @@ def logout():
     if 'email' not in session:  # kisi eger giris yapmamissa anasayfaya yonlendirilir
         return redirect(url_for('root'))
     email = session['email']
-    with sqlite3.connect('database.db') as conn:
-        cur = conn.cursor()
-        cur.execute(
-            "SELECT userId FROM kullanicilar WHERE email = ?", (email, ))
-        userId = cur.fetchone()[0]  # bu kisim usttekilerle ayni mantik
-    conn.close()
     session.pop('email', None)  # giris yapan kisiyi hafizadan atma
     return redirect(url_for('root'))  # anasayfaya donus
 
