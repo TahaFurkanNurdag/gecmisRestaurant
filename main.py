@@ -81,7 +81,6 @@ def login():
 def logout():
     if 'email' not in session:  # kisi eger giris yapmamissa anasayfaya yonlendirilir
         return redirect(url_for('root'))
-    email = session['email']
     session.pop('email', None)  # giris yapan kisiyi hafizadan atma
     return redirect(url_for('root'))  # anasayfaya donus
 
