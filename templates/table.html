@@ -1,0 +1,63 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <title>Masalar</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/w3.css') }}">
+    <script type="text/javascript" src="{{ url_for('static', filename = 'js/toggleMenu.js') }}"></script>
+    <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
+</head>
+
+<style>
+    .center {
+        margin: auto;
+        width: 60%;
+        padding: 10px;
+    }
+</style>
+
+<!-- Navbar -->
+{% include 'HEADER.html' %}
+<!-- Navbar End -->
+
+<!-- Content -->
+
+<body
+    style="font-family: 'Roboto', sans-serif; background-image: url({{ url_for('static', filename='images/root_background.png') }}); background-position: center;">
+    <div class="center">
+        <div class="w3-half">
+            <ul class="w3-ul w3-card-4" style="background-color:rgb(185, 185, 185);">
+                {% for row in data %}
+                <li class="w3-bar">
+                    <div class="w3-bar-item">
+                        <span>{{row[1]}}</span>
+                    </div>
+                    <form action="/XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" method="POST">
+                        <p hidden><input type="text" name="id" value={{row[0]}}></p>
+                        <input type="submit" class="w3-button w3-sand" value="Çıkar">
+                    </form>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="w3-half">
+            <ul class="w3-ul w3-card-4" style="background-color:rgb(185, 185, 185);">
+                {% for row in yemekdatasi %}
+                <li class="w3-bar">
+                    <div class="w3-bar-item">
+                        <span>{{row[1]}}</span>
+                    </div>
+                    <form action="/XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" method="POST">
+                        <p hidden><input type="text" name="id" value={{row[0]}}></p>
+                        <input type="submit" class="w3-button w3-sand" value="Ekle">
+                    </form>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+</body>
+
+</html>
