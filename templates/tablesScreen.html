@@ -28,9 +28,9 @@
     <div class="center">
         <div class="w3-half">
             <ul class="w3-ul w3-card-4" style="background-color:rgb(185, 185, 185);">
-                {% for table in allTables %}
+                {% for row in allTables %}
                 <li class="w3-bar">
-                    <a href="XXXXXXXXXXXXXXXXXXXXXXXX" class="w3-button w3-sand" value="row{{[0]}}">
+                    <a href="/table?id={{row[0]}}" class="w3-button w3-sand" value="row{{[0]}}">
                 </li>
                 {% endfor %}
             </ul>
