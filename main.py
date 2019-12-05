@@ -366,6 +366,33 @@ def deleteDrinks():
 ############## LIST OF FOODS ############################
 
 
+
+############################################# MASALAR 5.12.2019 #####################
+
+@app.route("/tablesScreen")
+def tablesScreen():
+    if 'email' not in session:  # giris yapilmadiysa
+        adminMi = 0  # admin mi degiskeni sifir olacak
+        session['adminMi'] = adminMi  # bu session icine aktarilacak
+    else:
+        adminMi = session['adminMi']
+    # yukarida olusturulan fonksiyondan degerler cekiliyor
+    girildiMi, adi = getLoginDetails()[1:]
+    return render_template('tablesScreen.html', girildiMi=girildiMi, adi=adi, adminMi=adminMi)
+
+@app.route("/stockTracker")
+def stockTracker():
+    if 'email' not in session:  # giris yapilmadiysa
+        adminMi = 0  # admin mi degiskeni sifir olacak
+        session['adminMi'] = adminMi  # bu session icine aktarilacak
+    else:
+        adminMi = session['adminMi']
+    # yukarida olusturulan fonksiyondan degerler cekiliyor
+    girildiMi, adi = getLoginDetails()[1:]
+    return render_template('stockTracker.html', girildiMi=girildiMi, adi=adi, adminMi=adminMi)
+
+
+
 def parse(data):  # urunleri listelememizde kullandigimiz fonksiyon. birden fazla ayni satir olmasin diye yazildi
     ans = []
     i = 0
@@ -382,4 +409,4 @@ def parse(data):  # urunleri listelememizde kullandigimiz fonksiyon. birden fazl
 
 if __name__ == '__main__':
     # 0.0.0.0 localhostta açık sunmak için. Bilgisayarın ipsine 5000. porttan bağlanılıyor
-    app.run(debug=True, host='0.0.0.0')
+    app.run(debug=True, host='0.0.0.0' , port=5000)
