@@ -25,6 +25,12 @@
                     <p>Yemek ekle<input name="yemeginAdi" class="w3-input" type="text" placeholder="Yemeğin Adı">
                     </p>
                     <p>Yemek fiyatı<input name="yemeginFiyati" class="w3-input" type="text" placeholder="Yemeğin Fiyatı"></p>
+					<p>Yemeğin kategorisi</p>
+					<select class="w3-input" name="uruntipi">
+							{% for row in kategori %}
+							<option value="{{row[0]}}">{{row[0]}}</option>
+							{% endfor %}
+						</select>
                 </div>
                 <input type="submit" value="Yemek Ekle"></button>
             </form>
@@ -35,6 +41,12 @@
                     <h1>Yemek Sil</h1>
                     <div class="inner-wrap">
                         <p>Yemek Numarası<input type="text" name="id"></p>
+                        <p>Yemeğin kategorisi</p>
+					<select class="w3-input" name="uruntipi">
+							{% for row in kategori %}
+							<option value="{{row[0]}}">{{row[0]}}</option>
+							{% endfor %}
+						</select>
                     </div>
                     <input type="submit" value="Yemek sil">
                 </form>
@@ -77,6 +89,12 @@
                 <p>Tatlı ekle<input name="tatliniAdi" class="w3-input" type="text" placeholder="Tatlının Adı">
                 </p>
                 <p>Tatlı fiyatı<input name="tatliniFiyati" class="w3-input" type="text" placeholder="Tatlının Fiyatı"></p>
+                <p>Tatlın kategorisi</p>
+                <select class="w3-input" name="uruntipi">
+                        {% for row in kategori %}
+                        <option value="{{row[0]}}">{{row[0]}}</option>
+                        {% endfor %}
+                    </select>
                 <input type="submit" value="Ekle"></button>
             </form>
         </div>
@@ -116,6 +134,12 @@
                 <h1>İçecek ekleme alanı</h1>
                 <p>İçeceği ekle<input name="iceceginAdi" class="w3-input" type="text" placeholder="İçeceğin Adı"></p>
                 <p>İçeceğin fiyatı<input name="iceceginFiyati" class="w3-input" type="text" placeholder="İçeceğin Fiyatı"></p>
+                <p>İçeceğin kategorisi</p>
+                <select class="w3-input" name="uruntipi">
+                        {% for row in kategori %}
+                        <option value="{{row[0]}}">{{row[0]}}</option>
+                        {% endfor %}
+                    </select>
                 <input type="submit" value="Ekle"></button>
             </form>
         </div>

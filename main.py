@@ -223,13 +223,16 @@ def listOfFoods():
     userId, girildiMi, adi = getLoginDetails()
     con = sqlite3.connect('database.db')
     cur = con.cursor()
-    cur.execute("SELECT * FROM yemekler")
+    cur.execute("SELECT * FROM urunler where kategori=1 ")
     data = cur.fetchall()  # data from database
-    cur.execute("select * from tatlilar")
+    cur.execute("SELECT * FROM urunler where kategori=2")
     tatlilar = cur.fetchall()
-    cur.execute("select * from icecekler")
+    cur.execute("SELECT * FROM urunler where kategori=3")
     icecekler = cur.fetchall()
-    return render_template("list_Of_foods.html", tatlilar=tatlilar, icecekler=icecekler, value=data, userId=userId, girildiMi=girildiMi, adi=adi, msg=msg, adminMi=adminMi)
+    cur.execute("SELECT id FROM kategoriler")
+    kategori = cur.fetchall() 
+
+    return render_template("list_Of_foods.html", kategori=kategori,tatlilar=tatlilar, icecekler=icecekler, value=data, userId=userId, girildiMi=girildiMi, adi=adi, msg=msg, adminMi=adminMi)
 
 
 @app.route("/addItemFood", methods=["GET", "POST"])
@@ -241,7 +244,7 @@ def addItemFood():
         with sqlite3.connect('database.db') as conn:
             try:
                 cur = conn.cursor()
-                cur.execute('''INSERT INTO yemekler (isim,fiyat) VALUES (?,?)''',
+                cur.execute('''INSERT INTO urunler (isim,fiyat,kategori) VALUES (?,?,1)''',
                             (yemeginAdi, yemeginFiyati))
                 conn.commit()  # burada kategori veritabanina ekleniyor
                 msg = "Basarili"
@@ -391,6 +394,82 @@ def stockTracker():
     girildiMi, adi = getLoginDetails()[1:]
     return render_template('stockTracker.html', girildiMi=girildiMi, adi=adi, adminMi=adminMi)
 
+@app.route("/table")
+def table():
+    if 'email' not in session:  # giris yapilmadiysa
+        adminMi = 0  # admin mi degiskeni sifir olacak
+        session['adminMi'] = adminMi  # bu session icine aktarilacak
+    else:
+        adminMi = session['adminMi']
+    # yukarida olusturulan fonksiyondan degerler cekiliyor
+    id_ = request.args.get('id')
+    girildiMi, adi = getLoginDetails()[1:]
+    return render_template('table.html', girildiMi=girildiMi, adi=adi, adminMi=adminMi , id_=id_)
+
+
+
+
+@app.route("/addToCart")
+def addToCart():
+    if 'email' not in session:
+        return redirect(url_for('loginForm'))
+    else:
+        masanumarasi = int(request.args.get('masanumarasi')),
+        
+        with sqlite3.connect('database.db') as conn:
+            cur = conn.cursor()
+            cur.execute("SELECT masaId FROM anliksiparis WHERE email = ?", (session['email'], ))
+            userId = cur.fetchone()[0]
+            try:
+                cur.execute("INSERT INTO kart (userId, productId) VALUES (?, ?)", (userId, productId))
+                conn.commit()
+                msg = "Added successfully"
+            except:
+                conn.rollback()
+                msg = "Error occured"
+        conn.close()
+        return redirect(url_for('cart'))
+
+
+@app.route("/removeFromCart")
+def removeFromCart():
+    if 'email' not in session:
+        return redirect(url_for('loginForm'))
+    email = session['email']
+    productId = int(request.args.get('productId'))
+    with sqlite3.connect('database.db') as conn:
+        cur = conn.cursor()
+        cur.execute("SELECT userId FROM users WHERE email = ?", (email, ))
+        userId = cur.fetchone()[0]
+        try:
+            cur.execute("DELETE FROM kart WHERE userId = ? AND productId = ?", (userId, productId))
+            conn.commit()
+            msg = "removed successfully"
+        except:
+            conn.rollback()
+            msg = "error occured"
+    conn.close()
+    return redirect(url_for('cart'))
+
+
+@app.route("/clearCart")
+def clearCart():
+    if 'email' not in session:
+        return redirect(url_for('loginForm'))
+    email = session['email']
+    with sqlite3.connect('database.db') as conn:
+        cur = conn.cursor()
+        cur.execute("SELECT userId FROM users WHERE email = ?", (email, ))
+        userId = cur.fetchone()[0]
+        try:
+            cur.execute("DELETE FROM kart;")
+            conn.commit()
+            msg = "removed successfully"
+        except:
+            conn.rollback()
+            msg = "error occured"
+    conn.close()
+    return redirect(url_for('cart'))
 
 
 def parse(data):  # urunleri listelememizde kullandigimiz fonksiyon. birden fazla ayni satir olmasin diye yazildi
