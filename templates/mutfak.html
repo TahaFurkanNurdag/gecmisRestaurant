@@ -1,0 +1,52 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <title>Mutfak</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/w3.css') }}">
+    <script type="text/javascript" src="{{ url_for('static', filename = 'js/toggleMenu.js') }}"></script>
+    <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
+</head>
+
+<style>
+    .center {
+        margin: auto;
+        width: 60%;
+        padding: 10px;
+    }
+</style>
+
+<!-- Navbar -->
+{% include 'HEADER.html' %}
+<!-- Navbar End -->
+
+<!-- Content -->
+
+<body
+    style="font-family: 'Roboto', sans-serif; background-image: url({{ url_for('static', filename='images/root_background.png') }}); background-position: center;">
+    <div class="center">
+        <table style="width: 100%">
+            <thead>
+                <tr>
+                    <th>Sipariş No</th>
+                    <th>Masa Adı</th>
+                    <th>Yemek</th>
+                    <th>Açıklama</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in value %}
+                <tr>
+                    <td class="w3-gray">{{row[0]}}</td>
+                    <td class="w3-gray">{{row[1]}}</td>
+                    <td class="w3-gray">{{row[2]}}</td>
+                    <td class="w3-gray">{{row[3]}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+
+</html>

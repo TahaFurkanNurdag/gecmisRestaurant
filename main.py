@@ -403,30 +403,40 @@ def table():
     girildiMi, adi = getLoginDetails()[1:]
     with sqlite3.connect('database.db') as con:
         try:
+            id_ = request.args.get('id')
             cur = con.cursor()
-            cur.execute("SELECT * FROM urunler")
-            yemekdatasi = cur.fetchall()
-            cur.execute("SELECT m.isim FROM anliksiparis c JOIN urunler m on c.urunId = m.id")
-            isimler = cur.fetchall()
+            print("a")
+            cur.execute("select * from (select * from anliksiparis join urunler where urunler.id = anliksiparis.urunId ) where masaId = ? ;", (id_))
+            isimler = cur.fetchall() #sipraisid, masaid, urunid, aciklama, id, isim, fiyat, kategori
+            print("b")
             cur.execute("SELECT isim, id FROM kategoriler")
             kategoriler = cur.fetchall()
+            print("c")
             cur.execute("select max(id) from kategoriler")
             kategori_sayisi = cur.fetchone()
             food_data=[]
+            current_sum=sum([i[6] for i in isimler])
             for i in range(1,kategori_sayisi[0]+1):
                 cur.execute("SELECT isim,id FROM urunler WHERE kategori=?",(str(i)))
                 result = cur.fetchall()
                 food_data.append(result)
             print(f"Food Data is: {food_data}")
 
-            id_ = request.args.get('id')
             cur.execute("SELECT masaIsmi FROM masalar WHERE id=?",(id_))
             masa_adi = str(cur.fetchone())[2:-3]
         except Exception as e:
             print(f"XXXXXXXXXXXXXXXXXXXX: {e}")
     con.close()
-    return render_template('table.html', kategori_sayisi=kategori_sayisi, id_=id_, food_data=food_data, kategoriler=kategoriler, masa_adi=masa_adi, girildiMi=girildiMi, adi=adi, adminMi=adminMi ,yemekdatasi=yemekdatasi, isimler=isimler)
-    
+    print(f"""Current Sum: {current_sum}
+    Kategori Sayısı: {kategori_sayisi}
+    ID: {id_}
+    Food Data: {food_data}
+    Kategoriler: {kategoriler}
+    Masa Adı: {masa_adi}
+    Isimler: {isimler}""")
+    return render_template('table.html', current_sum=current_sum, kategori_sayisi=kategori_sayisi, id_=id_, food_data=food_data, kategoriler=kategoriler, masa_adi=masa_adi, girildiMi=girildiMi, adi=adi, adminMi=adminMi , isimler=isimler)
+
+
 @app.route("/addToTable", methods=['GET', 'POST'])
 def addToTable():
     if 'email' not in session:
@@ -438,8 +448,10 @@ def addToTable():
         with sqlite3.connect('database.db') as con:
             try:
                 cur = con.cursor()
-                cur.execute('''INSERT INTO anliksiparis (masaId, urunId, aciklama) VALUES (?, ?, ?)''', (id_ , urunId, aciklama))
+                print(id_ , urunId, aciklama)
+                cur.execute("INSERT INTO anliksiparis (masaId, urunId, aciklama) VALUES (?, ?, ?)", (id_ , urunId, aciklama))
             except Exception as e:
+                con.rollback()
                 print(f"Error occured: {e}")
         con.close()
     else:
@@ -447,8 +459,45 @@ def addToTable():
     return redirect(url_for('table', id=id_))
 
 
-@app.route("/stockTracker")
-def stockTracker():
+@app.route("/removeFromTable", methods=['GET', 'POST'])
+def removeFromTable():
+    if 'email' not in session:
+        return redirect(url_for('loginForm'))
+    id_ = request.args.get('id')
+    rowNum = request.args.get('rowNum')
+    with sqlite3.connect('database.db') as con:
+        try:
+            cur = con.cursor()
+            print(f"rowNum is: {rowNum}, {type(rowNum)}")
+            print(f"List-wise: {list(rowNum)}")
+            cur.execute("DELETE FROM anliksiparis WHERE siparisId = ?", [rowNum])
+            con.commit()
+        except Exception as e:
+            con.rollback()
+            print(f"Error: {e}")
+    con.close()
+    return redirect(url_for('table', id=id_))
+
+
+@app.route("/clearTable", methods=['GET', 'POST'])
+def clearTable():
+    if 'email' not in session:
+        return redirect(url_for('loginForm'))
+    id_ = request.args.get('id')
+    with sqlite3.connect('database.db') as con:
+        try:
+            cur = con.cursor()
+            cur.execute("DELETE FROM anliksiparis WHERE masaId = ?", id_)
+            con.commit()
+        except Exception as e:
+            con.rollback()
+            print(f"Error: {e}")
+    con.close()
+    return redirect(url_for('tablesScreen'))
+
+
+@app.route("/mutfak")
+def mutfak():
     if 'email' not in session:  # giris yapilmadiysa
         adminMi = 0  # admin mi degiskeni sifir olacak
         session['adminMi'] = adminMi  # bu session icine aktarilacak
@@ -456,32 +505,19 @@ def stockTracker():
         adminMi = session['adminMi']
     # yukarida olusturulan fonksiyondan degerler cekiliyor
     girildiMi, adi = getLoginDetails()[1:]
-    return render_template('stockTracker.html', girildiMi=girildiMi, adi=adi, adminMi=adminMi)
-
-
-@app.route("/removeFromCart")
-def removeFromCart():
-    if 'email' not in session:
-        return redirect(url_for('loginForm'))
-    email = session['email']
-    productId = int(request.args.get('productId'))
-    with sqlite3.connect('database.db') as conn:
-        cur = conn.cursor()
-        cur.execute("SELECT userId FROM users WHERE email = ?", (email, ))
-        userId = cur.fetchone()[0]
+    with sqlite3.connect('database.db') as con:
         try:
-            cur.execute("DELETE FROM kart WHERE userId = ? AND productId = ?", (userId, productId))
-            conn.commit()
-            msg = "removed successfully"
-        except:
-            conn.rollback()
-            msg = "error occured"
-    conn.close()
-    return redirect(url_for('cart'))
+            cur = con.cursor()
+            cur.execute("select siparisId,masaId , isim , aciklama  from (select * from anliksiparis join urunler where anliksiparis.urunId = urunler.id) ")
+            value = cur.fetchall()
+        except Exception as e:
+            print(f"Error: {e}")
+    con.close()
+    return render_template('mutfak.html', value=value, girildiMi=girildiMi, adi=adi, adminMi=adminMi)
 
 
-@app.route("/clearCart")
-def clearCart():
+@app.route("/checkout")
+def checkout():
     if 'email' not in session:
         return redirect(url_for('loginForm'))
     email = session['email']
@@ -498,6 +534,18 @@ def clearCart():
             msg = "error occured"
     conn.close()
     return redirect(url_for('cart'))
+
+
+@app.route("/stockTracker")
+def stockTracker():
+    if 'email' not in session:  # giris yapilmadiysa
+        adminMi = 0  # admin mi degiskeni sifir olacak
+        session['adminMi'] = adminMi  # bu session icine aktarilacak
+    else:
+        adminMi = session['adminMi']
+    # yukarida olusturulan fonksiyondan degerler cekiliyor
+    girildiMi, adi = getLoginDetails()[1:]
+    return render_template('stockTracker.html', girildiMi=girildiMi, adi=adi, adminMi=adminMi)
 
 
 def parse(data):  # urunleri listelememizde kullandigimiz fonksiyon. birden fazla ayni satir olmasin diye yazildi
