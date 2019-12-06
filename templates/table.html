@@ -15,6 +15,12 @@
         width: 60%;
         padding: 10px;
     }
+
+    #target {
+        padding: 1.5em;
+        margin: 1.5em;
+        background-color: #eee;
+    }
 </style>
 
 <!-- Navbar -->
@@ -25,39 +31,63 @@
 
 <body
     style="font-family: 'Roboto', sans-serif; background-image: url({{ url_for('static', filename='images/root_background.png') }}); background-position: center;">
+    <h1 class="center">Masa {{id_}}, {{masa_adi}}</h1>
     <div class="center">
-        <div class="w3-half">
+        <div class="w3-half w3-padding">
             <ul class="w3-ul w3-card-4" style="background-color:rgb(185, 185, 185);">
-                {% for row in data %}
+                {% for row in isimler %}
                 <li class="w3-bar">
                     <div class="w3-bar-item">
-                        <span>{{row[1]}}</span>
+                        <span>{{row[0]}}</span>
                     </div>
-                    <form action="/XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" method="POST">
-                        <p hidden><input type="text" name="id" value={{row[0]}}></p>
+                    <form class="w3-right" action="/XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" method="POST">
+                        <p hidden><input type="text" name="id" value={{row[2]}}></p>
                         <input type="submit" class="w3-button w3-sand" value="Çıkar">
                     </form>
                 </li>
                 {% endfor %}
             </ul>
         </div>
-        <div class="w3-half">
-            <ul class="w3-ul w3-card-4" style="background-color:rgb(185, 185, 185);">
-                {% for row in yemekdatasi %}
-                <li class="w3-bar">
-                    <div class="w3-bar-item">
-                        <span>{{row[1]}}</span>
+        <div class="w3-half w3-padding">
+            {% for i in range(kategori_sayisi[0]) %}
+            <button onclick="crazy_boy({{i}})">{{kategoriler[i][0]}}</button>
+            <div id="crazy_girl{{i}}">
+                <ul class="w3-ul w3-card-4" style="background-color:rgb(185, 185, 185);">
+                    <div>
+                        {% for row,a in food_data[i] %}
+                        <li class="w3-bar">
+                            <div class="w3-bar-item">
+                                <span class="w3-third">{{row}}</span>
+                            </div>
+                            <form action="/addToTable?id={{id_}}&urunId={{a}}" method="POST">
+                                <input class="w3-third w3-right" type="submit" class="w3-button w3-sand" value="Ekle">
+                                <textarea class="w3-third w3-right" rows="1" name="aciklama" placeholder=" "></textarea>
+                            </form>
+                        </li>
+                        {% endfor %}
                     </div>
-                    <form action="/XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" method="POST">
-                        <p hidden><input type="text" name="id" value={{row[0]}}></p>
-                        <input type="submit" class="w3-button w3-sand" value="Ekle">
-                    </form>
-                </li>
-                {% endfor %}
-            </ul>
+                </ul>
+            </div>
+            {% endfor %}
+        </div>
+        <div>
+            <a class="w3-right w3-button w3-blue">Mutfağa Gönder</a>
+            <a>Gelir: </a>
         </div>
     </div>
 
+
 </body>
+
+<script>
+    function crazy_boy(t) {
+        var x = document.getElementById("crazy_girl" + t);
+        if (x.style.display === "none") {
+            x.style.display = "block";
+        } else {
+            x.style.display = "none";
+        }
+    }
+</script>
 
 </html>

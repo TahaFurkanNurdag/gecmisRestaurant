@@ -18,10 +18,12 @@ conn.execute('''CREATE TABLE `kullanicilar` (
 		)''')
 
 conn.execute('''CREATE TABLE `anliksiparis` (
+	`siparisId` INTEGER,
 	`masaId` INTEGER,
 	`urunId`	INTEGER,
 	`aciklama` TEXT,
-	PRIMARY KEY(`masaId`)
+	FOREIGN KEY(`masaId`) REFERENCES `masalar`(`id`),
+	PRIMARY KEY(`siparisId`)
 		)''')
 		
 conn.execute('''CREATE TABLE `genelsiparis` (
@@ -31,25 +33,28 @@ conn.execute('''CREATE TABLE `genelsiparis` (
 	`gelir` INTEGER,
 	PRIMARY KEY(`id`)
 		)''')
-		
-		
+
 conn.execute('''CREATE TABLE `urunler` (
 	`id`	INTEGER,
 	`isim`	TEXT,
 	`fiyat` INTEGER,
     `kategori` INTEGER,
+	FOREIGN KEY(`kategori`) REFERENCES `kategoriler`(`id`),
 	PRIMARY KEY(`id`)
 		)''')
 
 conn.execute('''CREATE TABLE `kategoriler` (
 	`id`	INTEGER,
-    `isim` INTEGER,
+    `isim` TEXT,
 	PRIMARY KEY(`id`)
 		)''')
 
+conn.execute('''CREATE TABLE `masalar` (
+	`id`	INTEGER,
+    `masaIsmi` TEXT,
+	PRIMARY KEY(`id`)
+		)''')
 
-		
-		
 conn.execute('INSERT INTO "main"."kullanicilar" ("userId", "adi", "soyadi", "email", "kullaniciAdi", "parola", "adres", "tel", "adminMi") VALUES (1, "Özgür", "Özbek", "ozgurozbek1@yandex.com", "Admin", "122333", "-" , "05062545050", 1)')
 conn.execute('INSERT INTO "main"."kullanicilar" ("userId", "adi", "soyadi", "email", "kullaniciAdi", "parola", "adres", "tel", "adminMi") VALUES (2, "Taha Furkan", "Nurdağ", "tfn@tfn.com","TFN", "tfn", "TFN", "05350363646", 1)')
 conn.execute('INSERT INTO "main"."urunler" ("id", "isim", "fiyat", "kategori") VALUES (1, "Makarna", "5.00", 1)')
@@ -58,6 +63,7 @@ conn.execute('INSERT INTO "main"."urunler" ("id", "isim", "fiyat", "kategori") V
 conn.execute('INSERT INTO "main"."kategoriler" ("id", "isim") VALUES (1, "Yemekler")')
 conn.execute('INSERT INTO "main"."kategoriler" ("id", "isim") VALUES (2, "Tatlilar")')
 conn.execute('INSERT INTO "main"."kategoriler" ("id", "isim") VALUES (3, "Icecekler")')
+conn.execute('INSERT INTO "main"."masalar" ("id", "masaIsmi") VALUES (1, "Bahce-1")')
 conn.commit()
 
 conn.close()

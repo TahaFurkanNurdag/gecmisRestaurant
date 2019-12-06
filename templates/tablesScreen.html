@@ -30,7 +30,7 @@
             <ul class="w3-ul w3-card-4" style="background-color:rgb(185, 185, 185);">
                 {% for row in allTables %}
                 <li class="w3-bar">
-                    <a href="/table?id={{row[0]}}" class="w3-button w3-sand" value="row{{[0]}}">
+                    <a href="/table?id={{row[0]}}" class="w3-button w3-sand">{{row[0]}}</a>
                 </li>
                 {% endfor %}
             </ul>

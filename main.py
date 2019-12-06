@@ -381,7 +381,71 @@ def tablesScreen():
         adminMi = session['adminMi']
     # yukarida olusturulan fonksiyondan degerler cekiliyor
     girildiMi, adi = getLoginDetails()[1:]
-    return render_template('tablesScreen.html', girildiMi=girildiMi, adi=adi, adminMi=adminMi)
+    with sqlite3.connect('database.db') as con:
+        try:
+            cur = con.cursor()
+            cur.execute("SELECT * FROM  masalar")
+            allTables = cur.fetchall()
+        except:
+            msg = "Error occured"
+    con.close()
+
+    return render_template('tablesScreen.html', allTables=allTables, girildiMi=girildiMi, adi=adi, adminMi=adminMi)
+
+@app.route("/table")
+def table():
+    if 'email' not in session:  # giris yapilmadiysa
+        adminMi = 0  # admin mi degiskeni sifir olacak
+        session['adminMi'] = adminMi  # bu session icine aktarilacak
+    else:
+        adminMi = session['adminMi']
+    # yukarida olusturulan fonksiyondan degerler cekiliyor
+    girildiMi, adi = getLoginDetails()[1:]
+    with sqlite3.connect('database.db') as con:
+        try:
+            cur = con.cursor()
+            cur.execute("SELECT * FROM urunler")
+            yemekdatasi = cur.fetchall()
+            cur.execute("SELECT m.isim FROM anliksiparis c JOIN urunler m on c.urunId = m.id")
+            isimler = cur.fetchall()
+            cur.execute("SELECT isim, id FROM kategoriler")
+            kategoriler = cur.fetchall()
+            cur.execute("select max(id) from kategoriler")
+            kategori_sayisi = cur.fetchone()
+            food_data=[]
+            for i in range(1,kategori_sayisi[0]+1):
+                cur.execute("SELECT isim,id FROM urunler WHERE kategori=?",(str(i)))
+                result = cur.fetchall()
+                food_data.append(result)
+            print(f"Food Data is: {food_data}")
+
+            id_ = request.args.get('id')
+            cur.execute("SELECT masaIsmi FROM masalar WHERE id=?",(id_))
+            masa_adi = str(cur.fetchone())[2:-3]
+        except Exception as e:
+            print(f"XXXXXXXXXXXXXXXXXXXX: {e}")
+    con.close()
+    return render_template('table.html', kategori_sayisi=kategori_sayisi, id_=id_, food_data=food_data, kategoriler=kategoriler, masa_adi=masa_adi, girildiMi=girildiMi, adi=adi, adminMi=adminMi ,yemekdatasi=yemekdatasi, isimler=isimler)
+    
+@app.route("/addToTable", methods=['GET', 'POST'])
+def addToTable():
+    if 'email' not in session:
+        return redirect(url_for('loginForm'))
+    elif request.method == "POST":
+        id_ = request.args.get('id')
+        urunId = request.args.get('urunId')
+        aciklama = request.form['aciklama']
+        with sqlite3.connect('database.db') as con:
+            try:
+                cur = con.cursor()
+                cur.execute('''INSERT INTO anliksiparis (masaId, urunId, aciklama) VALUES (?, ?, ?)''', (id_ , urunId, aciklama))
+            except Exception as e:
+                print(f"Error occured: {e}")
+        con.close()
+    else:
+        return redirect(url_for('root'))
+    return redirect(url_for('table', id=id_))
+
 
 @app.route("/stockTracker")
 def stockTracker():
@@ -393,42 +457,6 @@ def stockTracker():
     # yukarida olusturulan fonksiyondan degerler cekiliyor
     girildiMi, adi = getLoginDetails()[1:]
     return render_template('stockTracker.html', girildiMi=girildiMi, adi=adi, adminMi=adminMi)
-
-@app.route("/table")
-def table():
-    if 'email' not in session:  # giris yapilmadiysa
-        adminMi = 0  # admin mi degiskeni sifir olacak
-        session['adminMi'] = adminMi  # bu session icine aktarilacak
-    else:
-        adminMi = session['adminMi']
-    # yukarida olusturulan fonksiyondan degerler cekiliyor
-    id_ = request.args.get('id')
-    girildiMi, adi = getLoginDetails()[1:]
-    return render_template('table.html', girildiMi=girildiMi, adi=adi, adminMi=adminMi , id_=id_)
-
-
-
-
-@app.route("/addToCart")
-def addToCart():
-    if 'email' not in session:
-        return redirect(url_for('loginForm'))
-    else:
-        masanumarasi = int(request.args.get('masanumarasi')),
-        
-        with sqlite3.connect('database.db') as conn:
-            cur = conn.cursor()
-            cur.execute("SELECT masaId FROM anliksiparis WHERE email = ?", (session['email'], ))
-            userId = cur.fetchone()[0]
-            try:
-                cur.execute("INSERT INTO kart (userId, productId) VALUES (?, ?)", (userId, productId))
-                conn.commit()
-                msg = "Added successfully"
-            except:
-                conn.rollback()
-                msg = "Error occured"
-        conn.close()
-        return redirect(url_for('cart'))
 
 
 @app.route("/removeFromCart")
