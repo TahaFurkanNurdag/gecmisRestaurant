@@ -9,70 +9,12 @@
     <script src="https://kit.fontawesome.com/611bc4e639.js"></script>
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js">//data-aos="fade-up"</script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js">//data-aos="fade"</script>
     <link href="https://fonts.googleapis.com/css?family=Pacifico&display=swap" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="./turnjs/lib/turn.js"></script>
 </head>
 
-<script>
-    $(document).ready(function () {
-        // Add smooth scrolling to all links
-        $("a").on('click', function (event) {
-
-            // Make sure this.hash has a value before overriding default behavior
-            if (this.hash !== "") {
-                // Prevent default anchor click behavior
-                event.preventDefault();
-
-                // Store hash
-                var hash = this.hash;
-
-                // Using jQuery's animate() method to add smooth page scroll
-                // The optional number (800) specifies the number of milliseconds it takes to scroll to the specified area
-                $('html, body').animate({
-                    scrollTop: $(hash).offset().top
-                }, 800, function () {
-
-                    // Add hash (#) to URL when done scrolling (default click behavior)
-                    window.location.hash = hash;
-                });
-            } // End if
-        });
-    });
-</script>
-
 <style>
-    .flipbook-viewport {
-        overflow: hidden;
-        width: 100%;
-    }
-
-    .flipbook-viewport .container {
-        margin: auto;
-    }
-
-    #magazine .cover {
-        background: #333;
-    }
-
-    #magazine .cover h1 {
-        color: white;
-        text-align: center;
-        font-size: 50px;
-        line-height: 500px;
-        margin: 0px;
-    }
-
-    #magazine {
-        width: 100%;
-        height: 600px;
-    }
-
-    #magazine .turn-page {
-        background-color: #ccc;
-    }
-
     body,
     html {
         height: 100%
@@ -89,191 +31,309 @@
         font-size: 20pt;
     }
 
-    @media only screen and (max-width: 1026px) {
-        .menu_big {
-            display: none;
-        }
-
-        .menu_small {
-            display: block;
-        }
-    }
-
-    @media only screen and (min-width: 1027px) {
-        .menu_big {
-            display: block;
-        }
-
-        .menu_small {
-            display: none;
-        }
-    }
-
     .bgimg {
         background-repeat: no-repeat;
         background-size: cover;
-        background-image: url("./img/hamburger.jpg");
-        min-height: 90%;
+        background-image: url("./img/header.png");
+        min-height: 100%;
+    }
+
+    /* Slideshow container */
+    .slideshow-container {
+        max-width: 1000px;
+        position: relative;
+        margin: auto;
+    }
+
+    /* Hide the images by default */
+    .mySlides {
+        display: none;
+    }
+
+    /* Next & previous buttons */
+    .prev,
+    .next {
+        cursor: pointer;
+        position: absolute;
+        top: 50%;
+        width: auto;
+        margin-top: -22px;
+        padding: 16px;
+        color: white;
+        font-weight: bold;
+        font-size: 18px;
+        transition: 0.6s ease;
+        border-radius: 0 3px 3px 0;
+        user-select: none;
+    }
+
+    /* Position the "next button" to the right */
+    .next {
+        right: 0;
+        border-radius: 3px 0 0 3px;
+    }
+
+    /* On hover, add a black background color with a little bit see-through */
+    .prev:hover,
+    .next:hover {
+        background-color: rgba(0, 0, 0, 0.8);
+    }
+
+    /* Caption text */
+    .text {
+        color: #f2f2f2;
+        font-size: 22px;
+        padding: 8px 12px;
+        position: absolute;
+        bottom: 8px;
+        width: 100%;
+        text-align: center;
+    }
+
+    /* Number text (1/3 etc) */
+    .numbertext {
+        color: #f2f2f2;
+        font-size: 12px;
+        padding: 8px 12px;
+        position: absolute;
+        top: 0;
+    }
+
+    /* The dots/bullets/indicators */
+    .dot {
+        cursor: pointer;
+        height: 15px;
+        width: 15px;
+        margin: 0 2px;
+        background-color: #bbb;
+        border-radius: 50%;
+        display: inline-block;
+        transition: background-color 0.6s ease;
+    }
+
+    .active,
+    .dot:hover {
+        background-color: #717171;
+    }
+
+    /* Fading animation */
+    .fade {
+        -webkit-animation-name: fade;
+        -webkit-animation-duration: 1.5s;
+        animation-name: fade;
+        animation-duration: 1.5s;
+    }
+
+    @-webkit-keyframes fade {
+        from {
+            opacity: .4
+        }
+
+        to {
+            opacity: 1
+        }
+    }
+
+    @keyframes fade {
+        from {
+            opacity: .4
+        }
+
+        to {
+            opacity: 1
+        }
+    }
+
+
+    .center {
+        margin: auto;
+        width: 80%;
+        padding: 10px;
     }
 </style>
 
-<body>
-
+<body class="w3-black">
     <!-- Header with image -->
     <header class="bgimg w3-display-container" id="home">
-        <div class="w3-display-bottomleft w3-padding">
-            <span data-aos="fade" class="w3-tag w3-xlarge">08:30 - 23:00</span>
-        </div>
         <div class="w3-display-middle w3-center">
-            <span data-aos="fade-up" data-aos-duration="3000" class="w3-text-white w3-hide-small"
+            <span data-aos="fade" data-aos-duration="3000" class="w3-text-white w3-hide-small"
                 style="font-size:100px"><br>Geçmiş.</span>
-            <span data-aos="fade-up" data-aos-duration="3000" class="w3-text-white w3-hide-large w3-hide-medium"
-                style="font-size:60px"><b><br>Geçmiş.</b></span>
-            <p><a href="#menu" class="w3-button w3-xxlarge w3-black">Menü</a></p>
+            <hr>
+            <a href="#menu" class="w3-button w3-xxlarge w3-border w3-text-white"
+                style="background-color: rgba(200, 200, 200, 0.5);">Menü</a>
+            <a href="tel:00905062540000" class="w3-button w3-xxlarge w3-border w3-text-white"
+                style="background-color: rgba(200, 200, 200, 0.5);">Bizi Arayın</a>
+        </div>
+        <div class="w3-display-bottomleft w3-padding">
+            <span data-aos="fade" style="background-color: rgba(200, 200, 200, 0.5);" class="w3-tag w3-xlarge">08:30 -
+                23:00</span>
+        </div>
+        <div class="w3-display-bottomright w3-padding">
+            <span data-aos="fade" style="background-color: rgba(200, 200, 200, 0.5);" class="w3-tag w3-xlarge">Sizinle,
+                Geçmiş.</span>
         </div>
     </header>
+    <div class="center">
+        <hr>
+        <p style="font-family:'Times New Roman', Times, serif" class="w3-center w3-margin"><i>Lorem ipsum dolor sit amet
+                consectetur adipisicing elit. Veritatis repellat atque
+                consequuntur culpa recusandae aspernatur tempora voluptatum aliquid dignissimos aperiam, porro officia
+                quis quos
+                sint, eaque neque eligendi fugit quasi.</i></p>
 
-    <!-- About Container -->
-    <div data-aos="fade" data-aos-duration="2000" class="w3-container w3-padding-64   w3-xlarge"
-        style="background-color:  slategray;" id="about">
-        <div class="w3-content">
-            <h1 class="w3-center w3-jumbo" style="margin-bottom:64px">Geçmiş'te;</h1>
-            <p>Geçmiş Restoran Bay Beyefendi tarafından kuruldu ve lorem ipsum dolor sit amet, consectetur
-                adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-                veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-            <p><strong>Şef?</strong> Bay Başka Beyefendi ya da Hanımefendi<img src="./img/header.jpg"
-                    style="width:150px" class="w3-right" alt="Geçmiş."></p>
-        </div>
-    </div>
+        <!-- Image Container -->
+        <div class="slideshow-container" style="min-width: 100%;">
 
-    <!-- Firuze -->
-    <div class=" " data-aos="fade-up" data-aos-duration="2000">
-        <img src="./img/temp.jpg" style="width:100%" alt="Restaurant">
-    </div>
-
-    <!-- Menu Container -->
-    <div id="menu" style="width: 100%" class="flipbook-viewport menu_big">
-        <div class="container">
-            <div data-aos="fade-up" data-aos-duration="2000" id="magazine">
-                <div class="cover">
-                    <h1>Menü</h1>
-                </div>
-                <div style="background-image:url(./img/pages/a1.jpg); width: auto;"></div>
-                <div style="background-image:url(./img/pages/a2.jpg); width: auto;"></div>
-                <div style="background-image:url(./img/pages/a3.jpg); width: auto;"></div>
-                <div style="background-image:url(./img/pages/a4.jpg); width: auto;"></div>
-                <div class="cover">
-                    <h1>Geçmiş.</h1>
-                </div>
+            <!-- Full-width images with number and caption text -->
+            <div class="mySlides fade">
+                <div class="numbertext">1 / 3</div>
+                <img src="./img/et.png" style="width:100%">
+                <div class="text">Sizin için özenle seçilip aşçımız tarafından anlık olarak hazırlanır.</div>
             </div>
+
+            <div class="mySlides fade">
+                <div class="numbertext">2 / 3</div>
+                <img src="./img/manti.png" style="width:100%">
+                <div class="text">Ev yapımı mantılarımız ile parmaklarınızı yiyeceksiniz.</div>
+            </div>
+
+            <div class="mySlides fade">
+                <div class="numbertext">3 / 3</div>
+                <img src="./img/pizza.png" style="width:100%">
+                <div class="text">İtalya havasını ince hamurlu mükemmel pizzamızda hissedeceksiniz.</div>
+            </div>
+
+            <!-- Next and previous buttons -->
+            <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+            <a class="next" onclick="plusSlides(1)">&#10095;</a>
         </div>
-    </div>
+        <br>
 
-    <!-- Small Screen Menu-->
-    <div data-aos="fade-up" data-aos-duration="2000" id="menu" style="width: 100%"
-        class="w3-content w3-display-container menu_small">
-        <img class="mySlides" src="./img/pages/a1.jpg" alt="P1" style="width:100%">
-        <img class="mySlides" src="./img/pages/a2.jpg" alt="P2" style="width:100%">
-        <img class="mySlides" src="./img/pages/a3.jpg" alt="P3" style="width:100%">
-        <img class="mySlides" src="./img/pages/a4.jpg" alt="P4" style="width:100%">
+        <!-- The dots/circles -->
+        <div style="text-align:center">
+            <span class="dot" onclick="currentSlide(1)"></span>
+            <span class="dot" onclick="currentSlide(2)"></span>
+            <span class="dot" onclick="currentSlide(3)"></span>
+        </div>
 
-        <button class="w3-button w3-black w3-display-left" onclick="plusDivs(-1)">&#10094;</button>
-        <button class="w3-button w3-black w3-display-right" onclick="plusDivs(1)">&#10095;</button>
-    </div>
+        <img src="./img/burger.png" style="width: 100%;" class="w3-image">
+<hr>
+        <!-- Image of location/map -->
+        <div data-aos="fade" data-aos-duration="2000">
+            <iframe width="100%" height="400px" id="gmap_canvas"
+                src="https://maps.google.com/maps?q=Le%20Brique%20Cafe%20%26%20Restaurant&t=&z=17&ie=UTF8&iwloc=&output=embed"
+                frameborder="0" scrolling="no"></iframe></div>
 
-    <script>
-        var slideIndex = 1;
-        showDivs(slideIndex);
-
-        function plusDivs(n) {
-            showDivs(slideIndex += n);
-        }
-
-        function showDivs(n) {
-            var i;
-            var x = document.getElementsByClassName("mySlides");
-            if (n > x.length) { slideIndex = 1 }
-            if (n < 1) { slideIndex = x.length }
-            for (i = 0; i < x.length; i++) {
-                x[i].style.display = "none";
-            }
-            x[slideIndex - 1].style.display = "block";
-        }
-    </script>
-
-    <!-- Image of location/map -->
-    <div data-aos="fade" data-aos-duration="2000">
-        <iframe width="100%" height="500" id="gmap_canvas"
-            src="https://maps.google.com/maps?q=Le%20Brique%20Cafe%20%26%20Restaurant&t=&z=17&ie=UTF8&iwloc=&output=embed"
-            frameborder="0" scrolling="no"></iframe></div>
-
-    <!-- Contact -->
-    <div class="w3-container w3-xlarge">
-        <div class="w3-content">
+        <!-- Contact -->
+        <img src="./img/menu.png" style="width: 100%;" class="w3-image">
+        <div style="font-family:'Times New Roman', Times, serif" class="w3-center w3-margin">
             <h1 class="w3-center w3-jumbo" style="margin-bottom:64px">İletişim</h1>
             <p>Falan filan filun fulun ya da 05050505050'yi arayın.</p>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe, laboriosam aut. Ut, fugit ipsum corrupti
-                labore voluptatibus eius sit! Doloribus ad facilis iste dolorem eos laborum voluptatem expedita vel
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe, laboriosam aut. Ut, fugit ipsum
+                corrupti
+                labore voluptatibus eius sit! Doloribus ad facilis iste dolorem eos laborum voluptatem expedita
+                vel
                 repudiandae.</p>
         </div>
     </div>
+    <hr>
 
     <!-- Footer -->
     <footer class="w3-center w3-black">
         <div class="w3-center w3-black w3-padding-large w3-margin-64 w3-xxlarge">
             <p data-aos="fade" data-aos-duration="2000">6 Yıllık Bir Geçmiş.</p>
         </div>
-        <!-- Photo grid -->
-        <div data-aos="fade" data-aos-duration="3000" class="w3-row w3-grayscale-max w3-padding-large">
-                <div class="w3-quarter">
-                    <img data-aos="fade-down" data-aos-duration="3000" src="./img/hamburger.jpg" style="width:100%"
-                        alt="Canoeing again">
-                    <img data-aos="fade-up" data-aos-duration="3000" src="./img/hamburger.jpg" style="width:100%"
-                        alt="Quiet day at the beach. Cold, but beautiful">
-                    <img data-aos-duration="3000" src="./img/hamburger.jpg" style="width:100%"
-                        alt="The Beach. Me. Alone. Beautiful">
-                </div>
-
-                <div class="w3-quarter">
-                    <img data-aos="fade-down" data-aos-duration="3000" src="./img/hamburger.jpg" style="width:100%"
-                        alt="A girl, and a train passing">
-                    <img data-aos="fade-up" data-aos-duration="3000" src="./img/hamburger.jpg" style="width:100%"
-                        alt="Waiting for the bus in the desert">
-                    <img data-aos-duration="3000" src="./img/hamburger.jpg" style="width:100%"
-                        alt="Nature again.. At its finest!">
-                </div>
-
-                <div class="w3-quarter">
-                    <img data-aos="fade-down" data-aos-duration="3000" src="./img/hamburger.jpg" style="width:100%"
-                        alt="Waiting for the bus in the desert">
-                    <img data-aos="fade-up" data-aos-duration="3000" src="./img/hamburger.jpg" style="width:100%"
-                        alt="What a beautiful scenery this sunset">
-                    <img data-aos-duration="3000" src="./img/hamburger.jpg" style="width:100%"
-                        alt="The Beach. Me. Alone. Beautiful">
-                </div>
-
-                <div class="w3-quarter">
-                    <img data-aos="fade-down" data-aos-duration="3000" src="./img/hamburger.jpg" style="width:100%"
-                        alt="A boy surrounded by beautiful nature">
-                    <img data-aos="fade-up" data-aos-duration="3000" src="./img/hamburger.jpg" style="width:100%"
-                        alt="A girl, and a train passing">
-                    <img data-aos-duration="3000" src="./img/hamburger.jpg" style="width:100%"
-                        alt="Quiet day at the beach. Cold, but beautiful">
-                </div>
+        <!-- Comment grid -->
+        <div style="font-family:'Courier New', Courier, monospace;" data-aos="fade" data-aos-duration="3000"
+            class="w3-large w3-row w3-grayscale-max w3-padding-large">
+            <div class="w3-quarter">
+                <p data-aos="fade" data-aos-duration="1000">"Çok güzel!"</p>
+                <p data-aos="fade" data-aos-duration="2000">"Menüdeki her şey mi güzel olur?"</p>
+                <p data-aos="fade" data-aos-duration="3000">"Arkadaşım getirdi, artık onsuz da geliyorum."</p>
             </div>
+
+            <div class="w3-quarter">
+                <p data-aos="fade" data-aos-duration="3500">"Brique, Geçmiş... Bir tanesiniz!"</p>
+                <p data-aos="fade" data-aos-duration="1000">"Tatlılarını deneyin."</p>
+                <p data-aos="fade" data-aos-duration="2000">"İnsanı rahat hissettiriyor ortam."</p>
+            </div>
+
+            <div class="w3-quarter">
+                <p data-aos="fade" data-aos-duration="3000">"Mantarlı tavuk dürümünü kesinlikle yiyin!"</p>
+                <p data-aos="fade" data-aos-duration="2500">"Burada aşık oldum."</p>
+                <p data-aos="fade" data-aos-duration="1000">"Geçmişimiz oldun be Geçmiş..."</p>
+            </div>
+
+            <div class="w3-quarter">
+                <p data-aos="fade" data-aos-duration="2000">"Herkes çok cana yakın ve güler yüzlü!"</p>
+                <p data-aos="fade" data-aos-duration="3000">"<3"</p> <p data-aos="fade" data-aos-duration="1500">
+                        "Seviyoruz."</p>
+            </div>
+        </div>
+        <br>
+        <p class="w3-center w3-text-gray w3-small">Geçmiş Restoran 2019</p>
     </footer>
 
-    <script type="text/javascript">
-        $('#magazine').turn({ gradients: true, acceleration: true });
+    <script>
+        $(document).ready(function () {
+            // Add smooth scrolling to all links
+            $("a").on('click', function (event) {
+
+                // Make sure this.hash has a value before overriding default behavior
+                if (this.hash !== "") {
+                    // Prevent default anchor click behavior
+                    event.preventDefault();
+
+                    // Store hash
+                    var hash = this.hash;
+
+                    // Using jQuery's animate() method to add smooth page scroll
+                    // The optional number (800) specifies the number of milliseconds it takes to scroll to the specified area
+                    $('html, body').animate({
+                        scrollTop: $(hash).offset().top
+                    }, 800, function () {
+
+                        // Add hash (#) to URL when done scrolling (default click behavior)
+                        window.location.hash = hash;
+                    });
+                } // End if
+            });
+        });
+    </script>
+
+    <script>AOS.init()</script>
+
+    <script>
+        var slideIndex = 1;
+        showSlides(slideIndex);
+
+        // Next/previous controls
+        function plusSlides(n) {
+            showSlides(slideIndex += n);
+        }
+
+        // Thumbnail image controls
+        function currentSlide(n) {
+            showSlides(slideIndex = n);
+        }
+
+        function showSlides(n) {
+            var i;
+            var slides = document.getElementsByClassName("mySlides");
+            var dots = document.getElementsByClassName("dot");
+            if (n > slides.length) { slideIndex = 1 }
+            if (n < 1) { slideIndex = slides.length }
+            for (i = 0; i < slides.length; i++) {
+                slides[i].style.display = "none";
+            }
+            for (i = 0; i < dots.length; i++) {
+                dots[i].className = dots[i].className.replace(" active", "");
+            }
+            slides[slideIndex - 1].style.display = "block";
+            dots[slideIndex - 1].className += " active";
+        }
     </script>
 
 </body>
-
-
-
-
-
-
-<script>AOS.init()</script>
 
 </html>
